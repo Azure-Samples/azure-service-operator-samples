@@ -1,0 +1,36 @@
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: azure-votes-sql
+spec:
+  selector:
+    matchLabels:
+      app: demo
+  replicas: 1 # tells deployment to run 2 pods matching the template
+  template:
+    metadata:
+      name: sql-demo
+      labels:
+        app: demo
+    spec:
+      containers:
+      - name: azure-votes-sql
+        image: docker.io/frodopwns/sqltest:latest
+        ports:
+        - containerPort: 8080
+        env:
+          # Define the environment variable
+          - name: DATABASE
+            value: sqldatabase-aso-demo
+          - name: SERVER
+            value: "sqlserver-aso-demo.database.windows.net"
+          - name: DBUSER
+            valueFrom:
+              secretKeyRef:
+                name: sqlserver-aso-demo
+                key: username
+          - name: DBPASS
+            valueFrom:
+              secretKeyRef:
+                name: sqlserver-aso-demo
+                key: password

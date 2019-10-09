@@ -1,0 +1,8 @@
+apiVersion: azure.microsoft.com/v1
+kind: SqlServer
+metadata:
+  name: sqlserver-aso-demo
+spec:
+  location: "westus"
+  resourcegroup: "aso-sql-rg"
+  allowazureserviceaccess: true
