@@ -1,9 +1,9 @@
 apiVersion: azure.microsoft.com/v1
 kind: SqlDatabase
 metadata:
-  name:  sqldatabase-aso-demo
+  name:  azvotessqldb
 spec:
   location: westus
-  resourcegroup: aso-sql-rg
+  resourcegroup: azvotessqlrg
   edition: 0
-  server:  sqlserver-aso-demo
+  server:  azvotessqlserver

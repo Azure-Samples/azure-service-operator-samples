@@ -15,22 +15,22 @@ spec:
     spec:
       containers:
       - name: azure-votes-sql
-        image: docker.io/frodopwns/sqltest:latest
+        image: docker.io/midobrzy/sqltest:latest
         ports:
         - containerPort: 8080
         env:
           # Define the environment variable
           - name: DATABASE
-            value: sqldatabase-aso-demo
+            value: azvotessqldb
           - name: SERVER
-            value: "sqlserver-aso-demo.database.windows.net"
+            value: "azvotessqlserver.database.windows.net"
           - name: DBUSER
             valueFrom:
               secretKeyRef:
-                name: sqlserver-aso-demo
+                name: sqluser-sample
                 key: username
           - name: DBPASS
             valueFrom:
               secretKeyRef:
-                name: sqlserver-aso-demo
+                name: sqluser-sample
                 key: password

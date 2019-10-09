@@ -1,8 +1,8 @@
 apiVersion: azure.microsoft.com/v1
 kind: SqlServer
 metadata:
-  name: sqlserver-aso-demo
+  name: azvotessqlserver
 spec:
   location: "westus"
-  resourcegroup: "aso-sql-rg"
+  resourcegroup: "azvotessqlrg"
   allowazureserviceaccess: true
