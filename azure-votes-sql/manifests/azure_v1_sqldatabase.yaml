@@ -1,5 +1,5 @@
-apiVersion: azure.microsoft.com/v1
-kind: SqlDatabase
+apiVersion: azure.microsoft.com/v1alpha1
+kind: AzureSqlDatabase
 metadata:
   name:  sqldatabase-aso-demo
 spec:
