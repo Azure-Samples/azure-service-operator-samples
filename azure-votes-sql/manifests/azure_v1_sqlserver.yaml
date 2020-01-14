@@ -5,4 +5,3 @@ metadata:
 spec:
   location: "westus"
   resourcegroup: "aso-sql-rg"
-  allowazureserviceaccess: true
