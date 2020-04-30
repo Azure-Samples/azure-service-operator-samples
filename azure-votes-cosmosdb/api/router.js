@@ -66,7 +66,7 @@ const create = (options) => {
     try {
       const {id} = req.params;
       const item = await database.delete(id);
-      res.status(204);
+      res.status(204).send();
     } catch (err) {
       next(err);
     }

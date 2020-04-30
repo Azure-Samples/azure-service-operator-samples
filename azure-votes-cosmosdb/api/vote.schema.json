@@ -5,14 +5,14 @@
   "type": "object",
   "additionalProperties": false,
   "required": [
-    "for"
+    "candidate"
   ],
   "properties": {
     "id": {
       "type": "string",
       "format": "uuid"
     },
-    "for": {
+    "candidate": {
       "type": "string"
     }
   }

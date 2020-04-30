@@ -40,6 +40,11 @@ class DatabaseClient {
     const resp = await this.container.item(id).delete();
     return resp.resource;
   }
+
+  async query(query) {
+    const resp = await this.container.items.query(query).fetchAll();
+    return resp.resources;
+  }
 }
 
 /*

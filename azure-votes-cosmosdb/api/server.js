@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const morgan = require("morgan");
 
 const router = require("./router");
+const summaryRouter = require("./summaryRouter");
 const validator = require("./validator");
 const database = require("./database");
 
@@ -31,6 +32,9 @@ const startApp = (services) => {
     name: config.cosmos.containerId,
     database,
     validate,
+  }));
+  app.use('/', summaryRouter.create({
+    database,
   }));
 
   app.listen(config.server.port, () => {
