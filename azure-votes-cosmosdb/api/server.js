@@ -1,11 +1,15 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
+const appInsights = require("applicationinsights");
 
 const router = require("./router");
 const summaryRouter = require("./summaryRouter");
 const validator = require("./validator");
 const database = require("./database");
+
+appInsights.setup(process.env.APPINSIGHTS_INSTKEY);
+appInsights.start();
 
 const config = {
   schema: "./vote.schema.json",

@@ -9,6 +9,7 @@ spec:
   location: southcentralus
   #TODO: replace with your resource group name
   resourceGroup: rg-aso-dev-jp
+  keyVaultToStoreSecrets: kv-aso-dev-jp
   properties:
     databaseAccountOfferType: Standard
 

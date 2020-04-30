@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: azure-votes-cosmosdb
-        image: jupflueg.azurecr.io/aso-demo-api:0.0.1
+        image: jupflueg.azurecr.io/aso-demo-api:0.0.2
         ports:
         - containerPort: 8080
         env:
@@ -25,6 +25,11 @@ spec:
               secretKeyRef:
                 name: cosmos-aso-dev-jp
                 key: primaryConnectionString
+          - name: APPINSIGHTS_INSTKEY
+            valueFrom:
+              secretKeyRef:
+                name: appinsights-sample
+                key: instrumentationKey
 ---
 apiVersion: v1
 kind: Service
