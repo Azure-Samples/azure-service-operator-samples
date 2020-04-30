@@ -1,0 +1,38 @@
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: azure-votes-cosmosdb
+spec:
+  replicas: 1 # tells deployment to run 2 pods matching the template
+  selector:
+    matchLabels:
+      app: azure-votes-cosmosdb
+  template:
+    metadata:
+      labels:
+        app: azure-votes-cosmosdb
+    spec:
+      containers:
+      - name: azure-votes-cosmosdb
+        image: jupflueg.azurecr.io/aso-demo-api:0.0.1
+        ports:
+        - containerPort: 8080
+        env:
+          - name: COSMOSDB_ACCOUNTURI
+            value: "https://cosmos-aso-dev-jp.documents.azure.com:443/"
+          - name: COSMOSDB_ACCOUNTKEY
+            valueFrom:
+              secretKeyRef:
+                name: cosmos-aso-dev-jp
+                key: primaryConnectionString
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: azure-votes-cosmosdb
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 8080
+  selector:
+    app: azure-votes-cosmosdb

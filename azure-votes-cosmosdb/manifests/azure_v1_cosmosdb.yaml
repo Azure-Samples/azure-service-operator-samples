@@ -1,0 +1,33 @@
+apiVersion: azure.microsoft.com/v1alpha1
+kind: CosmosDB
+metadata:
+  name: cosmos-aso-dev-jp
+  labels:
+    application: azure-votes-cosmosdb
+spec:
+  kind: GlobalDocumentDB
+  location: southcentralus
+  #TODO: replace with your resource group name
+  resourceGroup: rg-aso-dev-jp
+  properties:
+    databaseAccountOfferType: Standard
+
+    #TODO: enable when multiple locations is merged
+    # enableMultipleWriteLocations: true
+
+    # enable virtual network rules if configured below
+    isVirtualNetworkFilterEnabled: true
+
+  # allow access from the AKS cluster it is being deployed to
+  virtualNetworkRules:
+    #TODO: 1. Add CosmosDB Service Endpoint to AKS Cluster's subnet
+    #      2. Replace the following with your own AKS Cluster's subnet Resource ID
+    - subnetID: /subscriptions/7060bca0-7a3c-44bd-b54c-4bb1e9facfac/resourceGroups/MC_rg-aso-dev-jp_aks-aso-dev-jp_southcentralus/providers/Microsoft.Network/virtualNetworks/aks-vnet-19807700/subnets/aks-subnet
+
+  ipRules:
+    # allow access from azure portal
+    - 104.42.195.92,40.76.54.131,52.176.6.30,52.169.50.45,52.187.184.26
+    #TODO: insert the public IP of your machine here (ex: `curl ifconfig.me`)
+    - 1.2.3.4
+
+  #TODO: update with multiple locations when it gets merged

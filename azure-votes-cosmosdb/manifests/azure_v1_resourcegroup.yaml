@@ -1,0 +1,9 @@
+apiVersion: azure.microsoft.com/v1alpha1
+kind: ResourceGroup
+metadata:
+  #TODO: replace with your resource group name
+  name: rg-aso-dev-jp
+  labels:
+    application: azure-votes-cosmosdb
+spec:
+  location: southcentralus

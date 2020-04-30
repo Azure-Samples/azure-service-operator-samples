@@ -1,0 +1,15 @@
+{
+  "name": "demo-api",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./server.js"
+  },
+  "dependencies": {
+    "@azure/cosmos": "^3.6.3",
+    "ajv": "^6.12.2",
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "morgan": "^1.10.0"
+  }
+}
