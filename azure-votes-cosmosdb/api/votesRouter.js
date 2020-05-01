@@ -9,12 +9,11 @@ const handleError = (res, reason, message, code) => {
 const create = (options) => {
   const router = express.Router();
   const {
-    name,
     database,
     validate,
   } = options;
 
-  router.get(`/${name}`, async (req, res, next) => {
+  router.get("/votes", async (req, res, next) => {
     try {
       const items = await database.getAll();
       res.status(200).json(items);
@@ -23,7 +22,19 @@ const create = (options) => {
     }
   });
 
-  router.get(`/${name}/:id`, async (req, res, next) => {
+  router.get("/votes/summary", async (req, res, next) => {
+    try {
+      const query =  `SELECT COUNT(1) AS candidateCount, v.candidate
+                      FROM Votes v
+                      GROUP BY v.candidate`;
+      const result = await database.query(query);
+      res.status(200).json(result);
+    } catch (err) {
+      next(err);
+    }
+  });
+
+  router.get("/votes/:id", async (req, res, next) => {
     try {
       const {id} = req.params;
       const item = await database.get(id);
@@ -33,7 +44,7 @@ const create = (options) => {
     }
   });
 
-  router.post(`/${name}`, async (req, res, next) => {
+  router.post("/votes", async (req, res, next) => {
     try {
       let item = req.body;
       if (validate(item)) {
@@ -47,7 +58,7 @@ const create = (options) => {
     }
   });
 
-  router.put(`/${name}/:id`, async (req, res, next) => {
+  router.put("/votes/:id", async (req, res, next) => {
     try {
       const {id} = req.params;
       let item = req.body;
@@ -62,7 +73,7 @@ const create = (options) => {
     }
   });
 
-  router.delete(`/${name}/:id`, async (req, res, next) => {
+  router.delete("/votes/:id", async (req, res, next) => {
     try {
       const {id} = req.params;
       const item = await database.delete(id);

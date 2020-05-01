@@ -3,8 +3,7 @@ const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const appInsights = require("applicationinsights");
 
-const router = require("./router");
-const summaryRouter = require("./summaryRouter");
+const votesRouter = require("./votesRouter");
 const validator = require("./validator");
 const database = require("./database");
 
@@ -32,13 +31,10 @@ const startApp = (services) => {
   const app = express();
   app.use(morgan('combined'));
   app.use(bodyParser.json());
-  app.use('/', router.create({
+  app.use('/', votesRouter.create({
     name: config.cosmos.containerId,
     database,
     validate,
-  }));
-  app.use('/', summaryRouter.create({
-    database,
   }));
 
   app.listen(config.server.port, () => {

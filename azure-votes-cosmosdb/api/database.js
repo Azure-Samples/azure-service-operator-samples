@@ -1,6 +1,6 @@
 const CosmosClient = require("@azure/cosmos").CosmosClient;
 
-class DatabaseClient {
+class CosmosContainerClient {
   constructor(endpoint, key, databaseId, containerId) {
     this.client = new CosmosClient({
       endpoint: endpoint,
@@ -50,7 +50,7 @@ class DatabaseClient {
 /*
  * This function ensures that the database is setup and populated correctly
  */
-async function create(config) {
+async function createCosmos(config) {
   const {
     endpoint,
     key,
@@ -82,7 +82,15 @@ async function create(config) {
     );
   console.log(`Created container:\n${container.id}\n`);
 
-  return new DatabaseClient(endpoint, key, databaseId, containerId);
+  return new CosmosContainerClient(endpoint, key, databaseId, containerId);
+}
+
+function create(config) {
+  const kind = (config.kind || "cosmos").toLowerCase();
+  if (kind == "cosmos") {
+    return createCosmos(config);
+  }
+  return null;
 }
 
 module.exports = { create };
