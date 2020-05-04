@@ -1,24 +1,59 @@
 # Create a Wordpress Website using Azure Service Operators
 
-## Requirements
+## Componenets
 
-- kubernetes cluster &  kubectl command line tool
+- Kubernetes, MySQL, Wordpress, Persistent Volume Storage, Secret Storage
 
-- MySQL
-  
-- Persistent Volume to store data with MySQL
-  
-- Wordpress
+## 1. Persisent Volumes
 
-- Persistent Volume to store data with WP
+We need two persistent volumes to store data - one for MySQL and one for Wordpress
 
-- Secret Generator
+- Create: `kubectl apply -f persistentvolumes.yaml`
 
+- Verify: `k get pv`
+-  ```yaml
+    NAME                          CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS      CLAIM   STORAGECLASS   REASON   AGE
+    mysql-persistent-storage      20Gi       RWO            Retain           Available                                   8s
+    wordpress-persistent-storage  20Gi       RWO            Retain           Available                                   48s
+    ```
 
-### Resource Configs
+## 2. MySQL Database
 
-1. Update/Edit Resource Configs
-   
-   - MySQL container mounts the PersistentVolume at /var/lib/mysql. The `MYSQL_ROOT_PASSWORD` env var sets the db password from the secret 
+### Create a password
 
-2. a
+We need to store our password for the MySQL root user as a secret. The secret generator is in the kustomization.yaml
+
+- Create: `kubectl apply -f kustomizaiton.yaml`
+
+- Verify: `k get secrets`
+
+### Create MySQL
+
+Create a single MySQL instance
+
+- Create: `kubectl apply -f mysql.yaml`
+
+- Check progress: `k get pods`
+
+## 3. Deploy Wordpress to Kubernetes
+
+1. Dockerize the WordPress instance
+
+2. Build and push the docker image
+
+    - `docker login`
+
+    - `docker build -t melonrush13/wordpress .`
+
+    - `docker push melonrush13/wordpress`
+
+3. Create Wordpress on the Kubernetes node
+
+    - `k apply -f wordpress.yaml`
+
+    - `k get pods`
+
+#### Helpful Docs
+
+- [Kubernetes Example](https://kubernetes.io/docs/tutorials/stateful-application/mysql-wordpress-persistent-volume) 
+- 
