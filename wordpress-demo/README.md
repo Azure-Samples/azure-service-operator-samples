@@ -8,7 +8,7 @@
 
 We need two persistent volumes to store data - one for MySQL and one for Wordpress
 
-- Create: `kubectl apply -f persistentvolumes.yaml`
+- Create: `kubectl apply -f pvc.yaml`
 
 - Verify: `k get pv`
 -  ```yaml
