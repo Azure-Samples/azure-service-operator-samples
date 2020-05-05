@@ -1,0 +1,8 @@
+secretGenerator:
+- name: mysql-pass
+  literals:
+  - password=MYPSWD
+resources:
+- mysql.yaml
+- wordpress.yaml
+# - persistentvolumes.yaml
