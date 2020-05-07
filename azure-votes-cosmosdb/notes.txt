@@ -1,0 +1,88 @@
+#pre-reqs
+azure cli
+kubernetes cli
+envsubst (via gettext brew package)
+
+# create the resource group
+az group create -n rg-aso-sample-infra -l eastus
+
+# create the container registry (or use public registry)
+az acr create --resource-group rg-aso-sample-infra --name asosamplecr --sku Basic
+
+# create AKS cluster and attach to container registry
+# version >= 1.16.0 is needed for CSI Driver Keyvault Provider
+az aks create \
+    --resource-group rg-aso-sample-infra \
+    --name aks-aso-sample-infra \
+    --attach-acr asosamplecr \
+    --kubernetes-version 1.16.7 \
+    --generate-ssh-keys
+
+# login to cluster
+az aks get-credentials -g rg-aso-sample-infra -n aks-aso-sample-infra
+
+# clone the ASO + Samples repository
+cd ~/Projects
+git clone git@github.com:Azure/azure-service-operator.git
+git clone git@github.com:Azure-Samples/azure-service-operator-samples.git
+
+# export variables that will be used throughout
+export AZURE_SUBSCRIPTION_ID=$(az account show --query "id" -o tsv)
+export AZURE_TENANT_ID=$(az account show --query "tenantId" -o tsv)
+export AZURE_CLIENT_ID=<insert>
+export AZURE_CLIENT_SECRET=<insert>
+export AZURE_USE_MI=False
+
+# create the namespace for ASO, pre-req for managed identity
+kubectl create namespace azureoperator-system
+
+# create a secret for the operator
+kubectl --namespace azureoperator-system \
+    create secret generic azureoperatorsettings \
+    --from-literal=AZURE_SUBSCRIPTION_ID="$AZURE_SUBSCRIPTION_ID" \
+    --from-literal=AZURE_TENANT_ID="$AZURE_TENANT_ID" \
+    --from-literal=AZURE_USE_MI="$AZURE_USE_MI"
+
+#TODO: link to mi_notes.txt
+
+# add service endpoints to AKS cluster's VNET
+# 1. VNet is in resource group named like MC_<rg-name>_<aks-name>_<loc-name> => MC_rg-aso-sample_aks-aso-sample_eastus
+# 2. Navigate to "Virtual Network" > "Subnet" > "aks-subnet" and add following to "Service Endpoints":
+#    - Microsoft.AzureCosmosDB
+#    - Microsoft.Keyvault
+# 3. Save to persist
+
+# Navigate to ASO repository
+cd ~/Projects/azure-service-operator
+
+# install cert manager
+make install-cert-manager
+
+# build and deploy docker image
+export GO111MODULE=on
+az acr login -n asosamplecr
+IMG=asosamplecr.azurecr.io/azure-service-operator:latest make build-and-push
+
+# deploy the ASO
+make deploy
+
+# Navigate to ASO Sample repository
+cd ~/Projects/azure-service-operator-samples
+
+# deploy resource group
+kubectl apply -f ./azure-votes-cosmosdb/manifests/resourcegroup.yaml
+
+# deploy app insights
+kubectl apply -f ./azure-votes-cosmosdb/manifests/appinsights.yaml
+
+# deploy keyvault
+kubectl apply -f ./azure-votes-cosmosdb/manifests/keyvault.yaml
+
+# deploy cosmosdb
+kubectl apply -f ./azure-votes-cosmosdb/manifests/cosmosdb.yaml
+
+# build and push api container image to ACR or other registry
+az acr login -n asosample
+cd ./azure-votes-cosmosdb/api && ./build_and_push.sh asosample.azurecr.io
+
+#TODO: file bug for unsetting failed provisioning

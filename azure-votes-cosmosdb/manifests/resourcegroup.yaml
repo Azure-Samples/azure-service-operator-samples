@@ -1,0 +1,8 @@
+apiVersion: azure.microsoft.com/v1alpha1
+kind: ResourceGroup
+metadata:
+  name: rg-aso-votes-app
+  labels:
+    application: aso-votes-app
+spec:
+  location: eastus

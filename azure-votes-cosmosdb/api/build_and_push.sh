@@ -1,7 +1,6 @@
 #!/bin/bash
 
-ver="0.0.2"
-reg="jupflueg.azurecr.io"
-tag="$reg/aso-demo-api:$ver"
+tag="docker.io/jupflueg/aso-votes-app:latest"
+
 docker build -t $tag .
 docker push $tag

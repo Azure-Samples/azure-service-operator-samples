@@ -1,11 +1,5 @@
 const express = require('express');
 
-// Generic error handler used by all endpoints.
-const handleError = (res, reason, message, code) => {
-  console.log("ERROR: " + reason);
-  res.status(code || 500).json({"error": message});
-};
-
 const create = (options) => {
   const router = express.Router();
   const {
@@ -13,7 +7,7 @@ const create = (options) => {
     validate,
   } = options;
 
-  router.get("/votes", async (req, res, next) => {
+  router.get("/", async (req, res, next) => {
     try {
       const items = await database.getAll();
       res.status(200).json(items);
@@ -22,7 +16,7 @@ const create = (options) => {
     }
   });
 
-  router.get("/votes/summary", async (req, res, next) => {
+  router.get("/summary", async (req, res, next) => {
     try {
       const query =  `SELECT COUNT(1) AS candidateCount, v.candidate
                       FROM Votes v
@@ -34,7 +28,7 @@ const create = (options) => {
     }
   });
 
-  router.get("/votes/:id", async (req, res, next) => {
+  router.get("/:id", async (req, res, next) => {
     try {
       const {id} = req.params;
       const item = await database.get(id);
@@ -44,7 +38,7 @@ const create = (options) => {
     }
   });
 
-  router.post("/votes", async (req, res, next) => {
+  router.post("/", async (req, res, next) => {
     try {
       let item = req.body;
       if (validate(item)) {
@@ -58,7 +52,7 @@ const create = (options) => {
     }
   });
 
-  router.put("/votes/:id", async (req, res, next) => {
+  router.put("/:id", async (req, res, next) => {
     try {
       const {id} = req.params;
       let item = req.body;
@@ -73,7 +67,7 @@ const create = (options) => {
     }
   });
 
-  router.delete("/votes/:id", async (req, res, next) => {
+  router.delete("/:id", async (req, res, next) => {
     try {
       const {id} = req.params;
       const item = await database.delete(id);

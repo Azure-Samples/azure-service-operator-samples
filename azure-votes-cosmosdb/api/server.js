@@ -1,19 +1,22 @@
+const path = require("path");
 const express = require("express");
 const bodyParser = require("body-parser");
 const morgan = require("morgan");
 const appInsights = require("applicationinsights");
 
-const votesRouter = require("./votesRouter");
-const validator = require("./validator");
-const database = require("./database");
+const { create: createDatabase } = require("./database");
+const { create: createValidator } = require("./validator");
+const { create: createVotesRouter } = require("./votesRouter");
 
+// configure application insights
 appInsights.setup(process.env.APPINSIGHTS_INSTKEY);
 appInsights.start();
 
 const config = {
   schema: "./vote.schema.json",
-  cosmos: {
-    endpoint: process.env.COSMOSDB_ACCOUNTURI,
+  database: {
+    kind: "cosmos",
+    endpoint: process.env.COSMOSDB_ENDPOINT,
     key: process.env.COSMOSDB_ACCOUNTKEY,
     databaseId: "Voting",
     containerId: "Votes",
@@ -29,13 +32,20 @@ const startApp = (services) => {
   const validate = services[1];
 
   const app = express();
+  app.set('view engine', 'pug')
+
   app.use(morgan('combined'));
   app.use(bodyParser.json());
-  app.use('/', votesRouter.create({
-    name: config.cosmos.containerId,
+  app.use(express.static(path.join(__dirname, 'public')));
+
+  app.use('/votes', createVotesRouter({
     database,
     validate,
   }));
+
+  app.get('/', function (req, res) {
+    res.render('index', { title: 'Express' });
+  });
 
   app.listen(config.server.port, () => {
     console.log("App now running on port", config.server.port);
@@ -43,7 +53,7 @@ const startApp = (services) => {
 };
 
 const initializers = [
-  database.create(config.cosmos),
-  validator.create(config.schema),
+  createDatabase(config.database),
+  createValidator(config.schema),
 ];
 Promise.all(initializers).then(startApp);

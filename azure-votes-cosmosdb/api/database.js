@@ -58,10 +58,7 @@ async function createCosmos(config) {
     containerId,
     partitionKey,
   } = config;
-  const client = new CosmosClient({
-    endpoint,
-    key,
-  });
+  const client = new CosmosClient({ endpoint, key });
 
   /**
    * Create the database if it does not exist
