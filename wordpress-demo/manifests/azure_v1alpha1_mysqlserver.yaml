@@ -6,7 +6,7 @@ spec:
   location: eastus2
   resourceGroup: aso-wpdemo-rg
   serverVersion: "8.0"
-  sslEnforcement: Enabled
+  sslEnforcement: Disabled
   minimalTLSVersion: TLS10 # Possible values include: 'TLS10', 'TLS11', 'TLS12', 'Disabled'
   infrastructureEncryption: Enabled # Possible values include: Enabled, Disabled
   createMode: Default # Possible values include: Default, Replica, PointInTimeRestore (not implemented), GeoRestore (not implemented)

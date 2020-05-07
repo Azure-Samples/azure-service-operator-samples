@@ -15,13 +15,15 @@ spec:
     spec:
       containers:
       - name: aso-wpdemo
-        image: melonrush13/wordpressdemo:latest
+        image: wordpress
         ports: 
         - containerPort: 80
           name: wordpress
         env:
+          - name: WORDPRESS_DEBUG
+            value: "1"
           - name: WORDPRESS_DB_HOST
-            value: "aso-wpdemo-mysqlserver.mysql.database.azure.com"
+            value: "aso-wpdemo-mysqlserver.mysql.database.azure.com:3306"
           - name: WORDPRESS_DB_NAME
             value: aso-wpdemo-mysqldatabase
           - name: WORDPRESS_DB_USER
@@ -34,22 +36,3 @@ spec:
               secretKeyRef:
                 name: aso-wpdemo-mysqlserver
                 key: password
-          - name: MYSQL_ROOT_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: aso-wpdemo-mysqlserver
-                key: password
-          - name: MYSQL_DATABASE
-            value: aso-wpdemo-mysqldatabase
-        volumeMounts:
-        - name: wordpress-persistent-storage
-          mountPath: /var/www/html
-        - name: mysql-persistent-storage
-          mountPath: /var/lib/mysql
-      volumes: 
-      - name: wordpress-persistent-storage
-        persistentVolumeClaim:
-          claimName: wp-pv-claim
-      - name: mysql-persistent-storage
-        persistentVolumeClaim: 
-          claimName: mysql-pv-claim
