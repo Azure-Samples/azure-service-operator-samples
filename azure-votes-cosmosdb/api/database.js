@@ -1,5 +1,8 @@
 const CosmosClient = require("@azure/cosmos").CosmosClient;
 
+const { readJsonFile } = require('./util');
+
+
 class CosmosContainerClient {
   constructor(endpoint, key, databaseId, containerId) {
     this.client = new CosmosClient({
@@ -47,17 +50,28 @@ class CosmosContainerClient {
   }
 }
 
+const readSecretFile = async (secretPath) => {
+  const secret = await readJsonFile(secretPath);
+  return {
+    endpoint: Buffer.from(secret["primaryEndpoint"], "base64").toString(),
+    key: Buffer.from(secret["primaryMasterKey"], "base64").toString(),
+  };
+};
+
 /*
  * This function ensures that the database is setup and populated correctly
  */
 async function createCosmos(config) {
   const {
-    endpoint,
-    key,
+    secretPath,
     databaseId,
     containerId,
     partitionKey,
   } = config;
+  const {
+    endpoint,
+    key,
+  } = await readSecretFile(secretPath);
   const client = new CosmosClient({ endpoint, key });
 
   /**

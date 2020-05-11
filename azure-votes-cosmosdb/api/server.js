@@ -16,8 +16,7 @@ const config = {
   schema: "./vote.schema.json",
   database: {
     kind: "cosmos",
-    endpoint: process.env.COSMOSDB_ENDPOINT,
-    key: process.env.COSMOSDB_ACCOUNTKEY,
+    secretPath: process.env.COSMOSDB_SECRET_PATH,
     databaseId: "Voting",
     containerId: "Votes",
     partitionKey: { kind: "Hash", paths: ["/createdAt"] },

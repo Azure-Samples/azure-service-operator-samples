@@ -1,0 +1,50 @@
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: aso-votes-app
+spec:
+  replicas: 1 # tells deployment to run 2 pods matching the template
+  selector:
+    matchLabels:
+      application: aso-votes-app
+  template:
+    metadata:
+      labels:
+        application: aso-votes-app
+        aadpodidbinding: mi-aso-votes-app
+    spec:
+      containers:
+        - name: aso-votes-app
+          image: docker.io/jupflueg/aso-votes-app:latest
+          volumeMounts:
+            - name: secrets-store01-inline
+              mountPath: "/mnt/secrets-store"
+              readOnly: true
+          ports:
+            - containerPort: 8080
+          env:
+            - name: COSMOSDB_SECRET_PATH
+              value: "/mnt/secrets-store/default-cosmos-aso-votes-app"
+            - name: APPINSIGHTS_INSTKEY
+              valueFrom:
+                secretKeyRef:
+                  name: appinsights-aso-votes-app
+                  key: instrumentationKey
+      volumes:
+        - name: secrets-store01-inline
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: "spc-aso-votes-app"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: aso-votes-app
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 8080
+  selector:
+    application: aso-votes-app
