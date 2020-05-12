@@ -15,13 +15,13 @@
 Run the Azure Service operators with a  `make install` and `make run` in one terminal
 
 Create the Azure resources above using deploy.yaml in the manifest folder in another terminal
-`k apply -f ./`
+`kubectl apply -f ./`
 
 Check the deployment
-`k get deployment`
+`kubectl get deployment`
 
 Check for running pods
-`k get pods`
+`kubectl get pods`
 
 Port forward the webpage
-`k port-forward [podname] [newport]:[old port]`
+`kubectl port-forward [podname] [newport]:[old port]`
