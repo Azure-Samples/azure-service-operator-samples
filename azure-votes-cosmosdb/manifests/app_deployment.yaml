@@ -6,7 +6,7 @@ spec:
   replicas: 1 # tells deployment to run 2 pods matching the template
   selector:
     matchLabels:
-      application: aso-votes-app
+      application: "aso-votes-app"
   template:
     metadata:
       labels:
@@ -25,7 +25,7 @@ spec:
           env:
             - name: COSMOSDB_SECRET_PATH
               value: "/mnt/secrets-store/default-cosmos-aso-votes-app"
-            - name: APPINSIGHTS_INSTKEY
+            - name: APPINSIGHTS_INSTRUMENTATIONKEY
               valueFrom:
                 secretKeyRef:
                   name: appinsights-aso-votes-app
@@ -36,7 +36,7 @@ spec:
             driver: secrets-store.csi.k8s.io
             readOnly: true
             volumeAttributes:
-              secretProviderClass: "spc-aso-votes-app"
+              secretProviderClass: "secretprovider-mi-aso-votes-app"
 ---
 apiVersion: v1
 kind: Service

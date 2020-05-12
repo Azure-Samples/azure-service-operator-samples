@@ -1,0 +1,32 @@
+apiVersion: "aadpodidentity.k8s.io/v1"
+kind: AzureIdentity
+metadata:
+    name: mi-aso-votes-app
+spec:
+    type: 0
+    resourceID: /subscriptions/7060bca0-7a3c-44bd-b54c-4bb1e9facfac/resourcegroups/rg-aso-votes-app/providers/Microsoft.ManagedIdentity/userAssignedIdentities/mi-aso-votes-app
+    clientID: fd6f70eb-8d58-4e62-8bd6-16d525ad3421
+---
+apiVersion: "aadpodidentity.k8s.io/v1"
+kind: AzureIdentityBinding
+metadata:
+    name: mi-aso-votes-app-binding
+spec:
+    azureIdentity: mi-aso-votes-app
+    selector: mi-aso-votes-app
+---
+apiVersion: secrets-store.csi.x-k8s.io/v1alpha1
+kind: SecretProviderClass
+metadata:
+  name: secretprovider-mi-aso-votes-app
+spec:
+  provider: azure
+  parameters:
+    usePodIdentity: "true"
+    keyvaultName: "kv-aso-votes-app"
+    objects:  |
+      array:
+        - |
+          objectName: default-cosmos-aso-votes-app
+          objectType: secret
+    tenantId: "72f988bf-86f1-41af-91ab-2d7cd011db47"
