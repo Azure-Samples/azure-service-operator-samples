@@ -1,15 +1,20 @@
 # Create a Wordpress Website using Azure Service Operators
 
+[Watch demo here](https://www.youtube.com/watch?v=H9RJBXPBxUY&t=1s)
+
 ## Componenets
 
 - Kubernetes
-- MySQL
+- MySQLServer, MySQLDatabase, MySQLFirewalule
 - Wordpress
 - Persistent Volume Storage
+- Application Insights
 
-## Running the Project
+## Creating our resources
 
-Create our resources above using the yaml files in the manifest.
+Run the Azure Service operators with a  `make install` and `make run` in one terminal
+
+Create the Azure resources above using deploy.yaml in the manifest folder in another terminal
 `k apply -f ./`
 
 Check the deployment
