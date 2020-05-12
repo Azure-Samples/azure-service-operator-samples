@@ -2,7 +2,9 @@
 // - setup early so it can track other packages
 // - uses environment variable APPINSIGHTS_INSTRUMENTATIONKEY
 const appInsights = require("applicationinsights");
-appInsights.setup().start();
+appInsights.setup()
+  .setSendLiveMetrics(true)
+  .start();
 const startTime = Date.now();
 
 const path = require("path");

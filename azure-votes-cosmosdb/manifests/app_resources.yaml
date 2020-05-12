@@ -1,32 +1,80 @@
-apiVersion: "aadpodidentity.k8s.io/v1"
-kind: AzureIdentity
+apiVersion: azure.microsoft.com/v1alpha1
+kind: ResourceGroup
 metadata:
-    name: mi-aso-votes-app
+  name: rg-aso-votes-app
+  labels:
+    application: aso-votes-app
 spec:
-    type: 0
-    resourceID: /subscriptions/7060bca0-7a3c-44bd-b54c-4bb1e9facfac/resourcegroups/rg-aso-votes-app/providers/Microsoft.ManagedIdentity/userAssignedIdentities/mi-aso-votes-app
-    clientID: fd6f70eb-8d58-4e62-8bd6-16d525ad3421
+  location: eastus
 ---
-apiVersion: "aadpodidentity.k8s.io/v1"
-kind: AzureIdentityBinding
+apiVersion: azure.microsoft.com/v1alpha1
+kind: AppInsights
 metadata:
-    name: mi-aso-votes-app-binding
+  name: appinsights-aso-votes-app
+  labels:
+    application: aso-votes-app
 spec:
-    azureIdentity: mi-aso-votes-app
-    selector: mi-aso-votes-app
+  resourceGroup: rg-aso-votes-app
+  location: eastus
+  kind: other # Values should typically be one of the following: web, ios, other, store, java, phone.
+  applicationType: other # Possible values include 'web' or 'other'
 ---
-apiVersion: secrets-store.csi.x-k8s.io/v1alpha1
-kind: SecretProviderClass
+apiVersion: azure.microsoft.com/v1alpha1
+kind: KeyVault
 metadata:
-  name: secretprovider-mi-aso-votes-app
+  name: kv-aso-votes-app
+  labels:
+    application: aso-votes-app
 spec:
-  provider: azure
-  parameters:
-    usePodIdentity: "true"
-    keyvaultName: "kv-aso-votes-app"
-    objects:  |
-      array:
-        - |
-          objectName: default-cosmos-aso-votes-app
-          objectType: secret
-    tenantId: "72f988bf-86f1-41af-91ab-2d7cd011db47"
+  resourceGroup: rg-aso-votes-app
+  location: eastus
+  enableSoftDelete: false
+  # possible values for sku.Name are "Standard" or "Premium"  
+  sku:
+    name: standard
+  accessPolicies:
+    # allow the aso managed identity to access secrets
+    - tenantID: 72f988bf-86f1-41af-91ab-2d7cd011db47
+      clientID: 0c385da9-919e-453a-b4ee-5a93acbd6151
+      permissions:
+        secrets: # backup delete get list purge recover restore set
+          - list
+          - get
+          - delete
+          - set
+---
+apiVersion: azure.microsoft.com/v1alpha1
+kind: CosmosDB
+metadata:
+  name: cosmos-aso-votes-app
+  labels:
+    application: aso-votes-app
+spec:
+  kind: GlobalDocumentDB
+  location: eastus
+  resourceGroup: rg-aso-votes-app
+  keyVaultToStoreSecrets: kv-aso-votes-app
+  properties:
+    databaseAccountOfferType: Standard
+
+    enableMultipleWriteLocations: true
+
+    # enable virtual network rules if configured below
+    isVirtualNetworkFilterEnabled: true
+
+  # allow access from the AKS cluster it is being deployed to
+  virtualNetworkRules:
+    #TODO: Replace the following with your own AKS Cluster's subnet Resource ID
+    - subnetID: /subscriptions/7060bca0-7a3c-44bd-b54c-4bb1e9facfac/resourceGroups/MC_rg-aso-sample-infra_aks-aso-sample-infra_eastus/providers/Microsoft.Network/virtualNetworks/aks-vnet-12520612/subnets/aks-subnet
+  ipRules:
+    # allow access from azure portal
+    - 104.42.195.92,40.76.54.131,52.176.6.30,52.169.50.45,52.187.184.26
+    #TODO: insert the public IP of your machine here (ex: `curl ifconfig.me`)
+    - 73.153.28.188
+
+  locations:
+    - locationName: eastus
+      failoverPriority: 0
+      isZoneRedundant: true
+    - locationName: westus
+      failoverPriority: 1
