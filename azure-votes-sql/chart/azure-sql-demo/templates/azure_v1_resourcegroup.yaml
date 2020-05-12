@@ -1,0 +1,6 @@
+apiVersion: azure.microsoft.com/v1alpha1
+kind: ResourceGroup
+metadata:
+  name: {{ .Values.resourceGroupName }}
+spec:
+  location: {{ .Values.region }}

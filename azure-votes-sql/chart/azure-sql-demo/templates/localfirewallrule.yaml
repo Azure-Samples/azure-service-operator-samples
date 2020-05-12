@@ -1,0 +1,13 @@
+{{- if .Values.local }}
+apiVersion: azure.microsoft.com/v1alpha1
+kind: AzureSqlFirewallRule
+metadata:
+  name: saso-sql-fwrule-local
+spec:
+  resourcegroup: {{ .Values.resourceGroupName }}
+  server:  {{ .Values.serverName }}
+  
+  # this IP range enables Azure Service access
+  startipaddress: 1.1.1.1
+  endipaddress: 255.255.255.255
+{{- end }}
