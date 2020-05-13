@@ -36,3 +36,7 @@ helm install aso "$DIR/azure-service-operator-0.1.0.tgz" \
     --set azureUseMI=True \
     --set aad-pod-identity.azureIdentity.resourceID=$ASO_IDENTITY_ID \
     --set aad-pod-identity.azureIdentity.clientID=$ASO_IDENTITY_CLIENTID
+
+echo "installing csi-secrets-store-provider"
+helm install csi-secrets-store-provider-azure \
+    csi-secrets-store-provider-azure/csi-secrets-store-provider-azure

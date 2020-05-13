@@ -1,0 +1,8 @@
+apiVersion: v2
+name: azure-service-operator
+version: 0.0.1
+appVersion: 0.0.1
+description: Deploy Azure Resources and Application
+home: https://github.com/Azure-Samples/azure-service-operator-samples
+sources:
+  - https://github.com/Azure-Samples/azure-service-operator-samples
