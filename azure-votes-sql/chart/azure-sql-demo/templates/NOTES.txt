@@ -1,0 +1,4 @@
+Demo App Deployed!
+
+Run `kubectl port-forward deployment/azure-votes-sql 8080:8080`
+Then visit `http://localhost:8080` in your browser to test.

@@ -1,0 +1,8 @@
+resourceGroupName: resourcegroup-asosql-demo
+serverName: asosql-demo-srv
+databaseName: asosql-demo-db
+region: "westus"
+
+image: docker.io/frodopwns/sqltest:latest
+# if not running in AKS the firewall needs to be opened for the demo app
+local: true
