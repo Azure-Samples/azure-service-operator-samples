@@ -47,3 +47,13 @@ kubectl port-forward deployment/azure-votes-sql 8080:8080
 Then visit `http://localhost:8080` in your browser to test.
 
 ![image of app](./app.png)
+
+If you need to access the database via the portal or some SQL workbench tool simply access the secret with the server credentials.
+
+```
+kubectl get secret
+NAME                            TYPE                                  DATA   AGE
+your_sqlserver_name             Opaque                                5      33m
+```
+
+The server's admin credentials can be found in this secret. The secret will have the same name as the SQL Server unless a name is provided.
