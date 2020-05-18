@@ -1,76 +1,61 @@
-# Contributing to [project-title]
+# Contributing Guidelines
 
-This project welcomes contributions and suggestions.  Most contributions require you to agree to a
-Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
-the rights to use your contribution. For details, visit https://cla.opensource.microsoft.com.
+The Azure Service Operator project accepts contributions via GitHub pull requests. This document outlines the process to help get your contribution accepted.
 
-When you submit a pull request, a CLA bot will automatically determine whether you need to provide
-a CLA and decorate the PR appropriately (e.g., status check, comment). Simply follow the instructions
-provided by the bot. You will only need to do this once across all repos using our CLA.
+Please see also the [Azure Service Operator Developer Guide](docs/community/developer-guide.md).
 
-This project has adopted the [Microsoft Open Source Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
-For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
-contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
+## Contributor License Agreements
 
- - [Code of Conduct](#coc)
- - [Issues and Bugs](#issue)
- - [Feature Requests](#feature)
- - [Submission Guidelines](#submit)
+We'd love to accept your patches! Before we can take them, we have to jump a
+couple of legal hurdles.
 
-## <a name="coc"></a> Code of Conduct
-Help us keep this project open and inclusive. Please read and follow our [Code of Conduct](https://opensource.microsoft.com/codeofconduct/).
+The [Microsoft CLA](https://cla.microsoft.com/) must be signed by all contributors. Please fill out either the individual or corporate Contributor License Agreement (CLA). Once you are CLA'ed, we'll be able to accept your pull requests.
 
-## <a name="issue"></a> Found an Issue?
-If you find a bug in the source code or a mistake in the documentation, you can help us by
-[submitting an issue](#submit-issue) to the GitHub Repository. Even better, you can
-[submit a Pull Request](#submit-pr) with a fix.
+***NOTE***: Only original source code from you and other people that have
+signed the CLA can be accepted into the repository.
 
-## <a name="feature"></a> Want a Feature?
-You can *request* a new feature by [submitting an issue](#submit-issue) to the GitHub
-Repository. If you would like to *implement* a new feature, please submit an issue with
-a proposal for your work first, to be sure that we can use it.
+## Support Channels
 
-* **Small Features** can be crafted and directly [submitted as a Pull Request](#submit-pr).
+This is an open source project and as such no formal support is available. However, like all good open source projects we do offer "best effort" support through github issues.
 
-## <a name="submit"></a> Submission Guidelines
+GitHub issues can be filed here - https://github.com/Azure/azure-service-operator/issues
 
-### <a name="submit-issue"></a> Submitting an Issue
-Before you submit an issue, search the archive, maybe your question was already answered.
+Before opening a new issue or submitting a new pull request, it's helpful to search the project - it's likely that another user has already reported the issue you're facing, or it's a known issue that we're already aware of.
 
-If your issue appears to be a bug, and hasn't been reported, open a new issue.
-Help us to maximize the effort we can spend fixing issues and adding new
-features, by not reporting duplicate issues.  Providing the following information will increase the
-chances of your issue being dealt with quickly:
+## Issues
 
-* **Overview of the Issue** - if an error is being thrown a non-minified stack trace helps
-* **Version** - what version is affected (e.g. 0.1.2)
-* **Motivation for or Use Case** - explain what are you trying to do and why the current behavior is a bug for you
-* **Browsers and Operating System** - is this a problem with all browsers?
-* **Reproduce the Error** - provide a live example or a unambiguous set of steps
-* **Related Issues** - has a similar issue been reported before?
-* **Suggest a Fix** - if you can't fix the bug yourself, perhaps you can point to what might be
-  causing the problem (line of code or commit)
+Issues are used as the primary method for tracking anything to do with the Azure Service Operator project.
 
-You can file new issues by providing the above information at the corresponding repository's issues link: https://github.com/[organization-name]/[repository-name]/issues/new].
+### Issue Lifecycle
 
-### <a name="submit-pr"></a> Submitting a Pull Request (PR)
-Before you submit your Pull Request (PR) consider the following guidelines:
+The issue lifecycle is mainly driven by the core maintainers, but is good information for those contributing to the project. All issue types follow the same general lifecycle. Differences are noted below.
+1. Issue creation
+2. Triage
+    - The maintainer in charge of triaging will apply the proper labels for the issue. This includes labels for priority, type, and metadata. If additional
+    labels are needed in the future, we will add them.
+    - (If needed) Clean up the title to succinctly and clearly state the issue. Also ensure that proposals are prefaced with "Proposal".
+3. Discussion
+    - "Feature" and "Bug" issues should be connected to the PR that resolves it.
+    - Whoever is working on a "Feature" or "Bug" issue (whether a maintainer or someone from the community), should either assign the issue to themself or make a comment in the issue saying that they are taking it.
+    - "Proposal" and "Question" issues should stay open until resolved or if they have not been active for more than 30 days. This will help keep the issue queue to a manageable size and reduce noise. Should the issue need to stay open, the `keep open` label can be added.
+4. Issue closure
 
-* Search the repository (https://github.com/[organization-name]/[repository-name]/pulls) for an open or closed PR
-  that relates to your submission. You don't want to duplicate effort.
+## How to Contribute a Patch
 
-* Make your changes in a new git fork:
+1. If you haven't already done so, sign a Contributor License Agreement (see details above).
+2. Fork the desired repo, develop and test your code changes.
+3. Submit a pull request.
 
-* Commit your changes using a descriptive commit message
-* Push your fork to GitHub:
-* In GitHub, create a pull request
-* If we suggest changes then:
-  * Make the required updates.
-  * Rebase your fork and force push to your GitHub repository (this will update your Pull Request):
+## Reporting Security Issues
 
-    ```shell
-    git rebase master -i
-    git push -f
-    ```
+Microsoft takes the security of our software products and services seriously, which includes all source code repositories managed through our GitHub organizations, including this one.
 
-That's it! Thank you for your contribution!
+If you believe you have found a security vulnerability in this repository that meets Microsoft's [Microsoft's definition of a security vulnerability](https://docs.microsoft.com/en-us/previous-versions/tn-archive/cc751383(v=technet.10)), please report it to us as described below.
+
+**Please do not report security vulnerabilities through public GitHub issues.**
+
+Instead, please report them to the Microsoft Security Response Center (MSRC) at [https://msrc.microsoft.com/create-report](https://msrc.microsoft.com/create-report).
+
+We prefer all communications to be in English.
+
+Microsoft follows the principle of [Coordinated Vulnerability Disclosure](https://www.microsoft.com/en-us/msrc/cvd).
