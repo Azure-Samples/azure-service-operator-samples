@@ -1,0 +1,30 @@
+apiVersion: azure.microsoft.com/v1alpha1
+kind: CosmosDB
+metadata:
+  name: "cosmos-{{ .Values.app.name }}"
+  labels:
+    application: {{ .Values.app.name | quote }}
+spec:
+  kind: GlobalDocumentDB
+  location: {{ (index .Values.locations 0).name | quote }}
+  resourceGroup: "rg-{{ .Values.app.name }}"
+  keyVaultToStoreSecrets: "kv-{{ .Values.app.name }}"
+  properties:
+    databaseAccountOfferType: "Standard"
+    enableMultipleWriteLocations: true
+    isVirtualNetworkFilterEnabled: true
+  virtualNetworkRules:
+    - subnetID: "/subscriptions/{{ .Values.subscriptionID }}/resourceGroups/MC_{{ .Values.aks.rg }}_{{ .Values.aks.name }}_{{ (index .Values.locations 0).name }}/providers/Microsoft.Network/virtualNetworks/{{ .Values.aks.vnet }}/subnets/aks-subnet"
+      ignoreMissingVNetServiceEndpoint: true
+  ipRules:
+    # allow access from azure portal
+    - "104.42.195.92,40.76.54.131,52.176.6.30,52.169.50.45,52.187.184.26"
+    {{- if .Values.dev.ip }}
+    - {{ .Values.dev.ip | quote }}
+    {{- end }}
+  locations:
+    {{- range .Values.locations }}
+    - locationName: {{ .name }}
+      failoverPriority: {{ .failoverPriority }}
+      isZoneRedundant: {{ .isZoneRedundant }}
+    {{- end }}
