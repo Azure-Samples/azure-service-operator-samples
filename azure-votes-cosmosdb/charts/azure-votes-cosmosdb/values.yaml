@@ -1,13 +1,14 @@
-tenantID: 72f988bf-86f1-41af-91ab-2d7cd011db47
-subscriptionID: 7060bca0-7a3c-44bd-b54c-4bb1e9facfac
+tenantID: 00000000-0000-0000-0000-000000000000
+subscriptionID: 00000000-0000-0000-0000-000000000000
 
 aks:
   name: aks-aso-sample-infra
   rg: rg-aso-sample-infra
-  vnet: aks-vnet-12520612
+  vnet: <look this value up from the Azure Portal>
 
-dev:
-  ip: 73.153.28.188
+# Uncomment this if you want to run the code locally using your IP address
+# dev:
+#   ip: <insert your ip address here>
 
 app:
   name: aso-votes-app
@@ -15,10 +16,10 @@ app:
   image: docker.io/jupflueg/aso-votes-app:latest
   identity:
     name: mi-aso-votes-app
-    clientID: bd7a0881-1f42-4693-a3c9-6205d9abc8e5
+    clientID: 00000000-0000-0000-0000-000000000000
 
 aso:
-  clientID: 05a866fa-6ac7-4805-82e5-6b9f6a3a5f41
+  clientID: 00000000-0000-0000-0000-000000000000
 
 locations:
   - name: eastus
