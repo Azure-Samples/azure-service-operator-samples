@@ -1,0 +1,9 @@
+apiVersion: azure.microsoft.com/v1alpha1
+kind: AzureSqlDatabase
+metadata:
+  name:  {{ .Values.databaseName }}
+spec:
+  location: {{ .Values.region }}
+  resourcegroup: {{ .Values.resourceGroupName }}
+  edition: 0
+  server:  {{ .Values.serverName }}

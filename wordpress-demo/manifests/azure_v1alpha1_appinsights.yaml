@@ -1,0 +1,9 @@
+apiVersion: azure.microsoft.com/v1alpha1
+kind: AppInsights
+metadata:
+  name: aso-wpdemo-appinsights
+spec:
+  kind: other # Values should typically be one of the following: web, ios, other, store, java, phone.
+  location: eastus2
+  resourceGroup:  aso-wpdemo-rg
+  applicationType: other # Possible values include 'web' or 'other'
