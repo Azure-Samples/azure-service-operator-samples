@@ -47,7 +47,7 @@ Verify Creation
 Update the name field to your  own unique mysqlfirewallrule name, with the same resource group name and server from before.
 
 Create the MySqlFirewallRule
-`k create -f azure_v1alpha1_mysqlfirewallruleyaml`
+`k create -f azure_v1alpha1_mysqlfirewallrule.yaml`
 
 Verify Creation 
 `k get mysqlfirewallrule [mysqlfirewallrulename] -o yaml`
@@ -83,7 +83,7 @@ If you would like add any other wordpress env variables, you can find documentat
 Our persistent volume claims are also listed inside of the manifests file. You can create these separately if you would like using
 
 Create
-`kubectl create -f azure_v1alpha1_pvc.yaml`
+`kubectl create -f pvc.yaml`
 
 Verify
 `kubectl get pvc [pvcnames] -o yaml`
