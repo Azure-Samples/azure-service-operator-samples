@@ -6,7 +6,7 @@ This project contains example uses of the Azure Service Operator. These examples
 
 The example deployments currently contained in this repository:
 
-* [azure-votes-sql](./azure-votes-sql) - example Gp web app using Azure SQL Server
+* [azure-votes-sql](./azure-votes-sql) - example Go web app using Azure SQL Server
 * [wordpress-demo](./wordpress-demo) - example deploying Wordpress with Azure Databases for MySQL
 
 ## Getting Started
