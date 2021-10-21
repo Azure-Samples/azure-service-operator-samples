@@ -60,8 +60,8 @@ You can also find the resource group in the [Azure portal](https://portal.azure.
 We need to provide the web application with access to the database.
 Once the database account is created, store the connection details into environment variables with the following commands:
 ```sh
-COSMOS_DB_ACCOUNT="$(az cosmosdb show --resource-group aso-cosmos-demo --name sample-db-account -otsv --query 'locations[0].documentEndpoint')"
-COSMOS_DB_KEY="$(az cosmosdb keys list --resource-group aso-cosmos-demo --name sample-db-account -otsv --query 'primaryMasterKey')"
+COSMOS_DB_ACCOUNT="$(az cosmosdb show --resource-group aso-cosmos-demo --name sampledbaccount -otsv --query 'locations[0].documentEndpoint')"
+COSMOS_DB_KEY="$(az cosmosdb keys list --resource-group aso-cosmos-demo --name sampledbaccount -otsv --query 'primaryMasterKey')"
 ```
 
 Then create the secret the pod will use with:

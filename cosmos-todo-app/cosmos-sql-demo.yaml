@@ -14,7 +14,7 @@ spec:
 apiVersion: microsoft.documentdb.azure.com/v1alpha1api20210515
 kind: DatabaseAccount
 metadata:
-  name: sample-db-account
+  name: sampledbaccount
   namespace: cosmosdb
 spec:
   location: westcentralus
@@ -33,7 +33,7 @@ metadata:
 spec:
   location: westcentralus
   owner:
-    name: sample-db-account
+    name: sampledbaccount
   options:
     autoscaleSettings:
       maxThroughput: 4000
