@@ -1,0 +1,67 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: asodemo
+---
+apiVersion: microsoft.resources.azure.com/v1alpha1api20200601
+kind: ResourceGroup
+metadata:
+  name: asodemo-rg
+  namespace: asodemo
+spec:
+  location: westus2
+---
+apiVersion: microsoft.dbforpostgresql.azure.com/v1alpha1api20210601
+kind: FlexibleServer
+metadata:
+  name: ${SERVER}
+  namespace: asodemo
+spec:
+  location: westus2
+  owner:
+    name: asodemo-rg
+  version: "13"
+  sku:
+    name: Standard_D4s_v3
+    tier: GeneralPurpose
+  administratorLogin: ${USERNAME}
+  administratorLoginPassword: ${PASSWORD}
+  storage:
+    storageSizeGB: 128
+---
+apiVersion: microsoft.dbforpostgresql.azure.com/v1alpha1api20210601
+kind: FlexibleServersDatabase
+metadata:
+  name: votedb
+  namespace: asodemo
+spec:
+  owner:
+    name: ${SERVER}
+  charset: utf8
+---
+apiVersion: microsoft.dbforpostgresql.azure.com/v1alpha1api20210601
+kind: FlexibleServersFirewallRule
+metadata:
+  name: asodemo-allow-all
+  namespace: asodemo
+spec:
+  owner:
+    name: ${SERVER}
+  # The following address range allows anybody to connect to this server.
+  # This should only be used for demo purposes and not in production!
+  # There are other ways to control server access which are not covered here, you can see more about it here:
+  # https://docs.microsoft.com/azure/postgresql/flexible-server/concepts-security#network-security
+  startIpAddress: 0.0.0.0
+  endIpAddress: 255.255.255.255
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: postgres-secret
+  namespace: asodemo
+stringData:
+  USERNAME: "$USERNAME"
+  PASSWORD: "$PASSWORD"
+  SERVER:   "$SERVER.postgres.database.azure.com"
+  DATABASE: "votedb"
+  PORT:     "5432"
