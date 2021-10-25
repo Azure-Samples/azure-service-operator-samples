@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: app
-        image: docker.io/babbageclunk/cosmos-todo-app:latest
+        image: mcr.microsoft.com/k8s/asodemos/cosmostodo:latest
         env:
           - name: CosmosDB__Account
             valueFrom:
