@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: azure-votes-postgresql
-          image: docker.io/babbageclunk/asodemo-postgresql:latest
+          image: mcr.microsoft.com/k8s/asodemos/postgresqlvotes:latest
           ports:
             - containerPort: 8080
           env:
