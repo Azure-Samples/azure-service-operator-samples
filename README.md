@@ -9,6 +9,11 @@ The example deployments currently contained in this repository:
 * [azure-votes-sql](./azure-votes-sql) - example Go web app using Azure SQL Server
 * [wordpress-demo](./wordpress-demo) - example deploying Wordpress with Azure Databases for MySQL
 
+### ASO v2
+Examples using the v2 operator with code-generated resources for full coverage.
+* [azure-votes-postgresql](./azure-votes-postgresql) - Go voting web app using PostgreSQL server
+* [cosmos-todo-list](./cosmos-todo-list) - .NET todo-list web application using Cosmos DB SQL API for storage
+
 ## Getting Started
 
 ### Prerequisites
