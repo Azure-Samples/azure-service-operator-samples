@@ -3,7 +3,7 @@ kind: Namespace
 metadata:
   name: cosmosdb
 ---
-apiVersion: microsoft.resources.azure.com/v1alpha1api20200601
+apiVersion: resources.azure.com/v1alpha1api20200601
 kind: ResourceGroup
 metadata:
   name: aso-cosmos-demo
@@ -11,7 +11,7 @@ metadata:
 spec:
   location: westcentralus
 ---
-apiVersion: microsoft.documentdb.azure.com/v1alpha1api20210515
+apiVersion: documentdb.azure.com/v1alpha1api20210515
 kind: DatabaseAccount
 metadata:
   name: sampledbaccount
@@ -25,7 +25,7 @@ spec:
   locations:
     - locationName: westcentralus
 ---
-apiVersion: microsoft.documentdb.azure.com/v1alpha1api20210515
+apiVersion: documentdb.azure.com/v1alpha1api20210515
 kind: SqlDatabase
 metadata:
   name: sample-sql-db
@@ -40,7 +40,7 @@ spec:
   resource:
     id: sample-sql-db
 ---
-apiVersion: microsoft.documentdb.azure.com/v1alpha1api20210515
+apiVersion: documentdb.azure.com/v1alpha1api20210515
 kind: SqlDatabaseContainer
 metadata:
   name: sample-sql-container
