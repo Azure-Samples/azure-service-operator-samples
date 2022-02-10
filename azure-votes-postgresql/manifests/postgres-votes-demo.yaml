@@ -3,7 +3,7 @@ kind: Namespace
 metadata:
   name: asodemo
 ---
-apiVersion: microsoft.resources.azure.com/v1alpha1api20200601
+apiVersion: resources.azure.com/v1alpha1api20200601
 kind: ResourceGroup
 metadata:
   name: asodemo-rg
@@ -11,7 +11,7 @@ metadata:
 spec:
   location: westus2
 ---
-apiVersion: microsoft.dbforpostgresql.azure.com/v1alpha1api20210601
+apiVersion: dbforpostgresql.azure.com/v1alpha1api20210601
 kind: FlexibleServer
 metadata:
   name: ${SERVER}
@@ -29,7 +29,7 @@ spec:
   storage:
     storageSizeGB: 128
 ---
-apiVersion: microsoft.dbforpostgresql.azure.com/v1alpha1api20210601
+apiVersion: dbforpostgresql.azure.com/v1alpha1api20210601
 kind: FlexibleServersDatabase
 metadata:
   name: votedb
@@ -39,7 +39,7 @@ spec:
     name: ${SERVER}
   charset: utf8
 ---
-apiVersion: microsoft.dbforpostgresql.azure.com/v1alpha1api20210601
+apiVersion: dbforpostgresql.azure.com/v1alpha1api20210601
 kind: FlexibleServersFirewallRule
 metadata:
   name: asodemo-allow-all
