@@ -1,21 +1,21 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: cosmosdb
+  name: cosmos-todo
 ---
 apiVersion: resources.azure.com/v1alpha1api20200601
 kind: ResourceGroup
 metadata:
   name: aso-cosmos-demo
-  namespace: cosmosdb
+  namespace: cosmos-todo
 spec:
   location: westcentralus
 ---
 apiVersion: documentdb.azure.com/v1alpha1api20210515
 kind: DatabaseAccount
 metadata:
-  name: sampledbaccount
-  namespace: cosmosdb
+  name: cosmostodoacct
+  namespace: cosmos-todo
 spec:
   location: westcentralus
   owner:
@@ -24,16 +24,24 @@ spec:
   databaseAccountOfferType: Standard
   locations:
     - locationName: westcentralus
+  operatorSpec:
+    secrets:
+      primaryMasterKey:
+        name: cosmos-connection-settings
+        key: key
+      documentEndpoint:
+        name: cosmos-connection-settings
+        key: documentEndpoint
 ---
 apiVersion: documentdb.azure.com/v1alpha1api20210515
 kind: SqlDatabase
 metadata:
   name: sample-sql-db
-  namespace: cosmosdb
+  namespace: cosmos-todo
 spec:
   location: westcentralus
   owner:
-    name: sampledbaccount
+    name: cosmostodoacct
   options:
     autoscaleSettings:
       maxThroughput: 4000
@@ -44,7 +52,7 @@ apiVersion: documentdb.azure.com/v1alpha1api20210515
 kind: SqlDatabaseContainer
 metadata:
   name: sample-sql-container
-  namespace: cosmosdb
+  namespace: cosmos-todo
 spec:
   location: westcentralus
   owner:
