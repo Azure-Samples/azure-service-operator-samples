@@ -104,7 +104,7 @@ spec:
   owner:
     name: cosmostodoacct
   azureName: 31edb778-9702-4f43-a47a-5817594044af # This can be any UUID
-  principalIdConfigRef:
+  principalIdFromConfig:
     name: cosmos-todo-identity-settings
     key: principalId
   # This RoleDefinition corresponds to "Cosmos DB Built-in Data Contributor". See https://docs.microsoft.com/en-us/azure/cosmos-db/how-to-setup-rbac#built-in-role-definitions for more.
