@@ -13,6 +13,7 @@ The example deployments currently contained in this repository:
 Examples using the v2 operator with code-generated resources for full coverage.
 * [azure-votes-postgresql](./azure-votes-postgresql) - Go voting web app using PostgreSQL server
 * [cosmos-todo-list](./cosmos-todo-list) - .NET todo-list web application using Cosmos DB SQL API for storage
+* [cosmos-todo-list-mi](./cosmos-todo-list-mi) - .NET todo-list web application using Cosmos DB SQL API for storage, with a managed identity
 
 ## Getting Started
 

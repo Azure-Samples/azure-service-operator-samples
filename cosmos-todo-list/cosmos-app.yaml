@@ -4,7 +4,7 @@ metadata:
   labels:
     app: cosmos-todo-app
   name: cosmos-todo-app
-  namespace: cosmosdb
+  namespace: cosmos-todo
 spec:
   replicas: 1
   selector:
@@ -22,27 +22,19 @@ spec:
           - name: CosmosDB__Account
             valueFrom:
               secretKeyRef:
-                key: Account
-                name: cosmos-settings
+                name: cosmos-connection-settings  # This is the secret created by ASO associated with the CosmosDB Account. See the DatabaseAccount resource for more details.
+                key: documentEndpoint
                 optional: false
           - name: CosmosDB__Key
             valueFrom:
               secretKeyRef:
-                key: Key
-                name: cosmos-settings
+                key: key
+                name: cosmos-connection-settings  # This is the secret created by ASO associated with the CosmosDB Account. See the DatabaseAccount resource for more details.
                 optional: false
           - name: CosmosDB__DatabaseName
-            valueFrom:
-              secretKeyRef:
-                key: DatabaseName
-                name: cosmos-settings
-                optional: true
+            value: "sample-sql-db"
           - name: CosmosDB__ContainerName
-            valueFrom:
-              secretKeyRef:
-                key: ContainerName
-                name: cosmos-settings
-                optional: true
+            value: "sample-sql-container"
         ports:
         - containerPort: 80
           name: webserver
@@ -60,7 +52,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: cosmos-todo-service
-  namespace: cosmosdb
+  namespace: cosmos-todo
 spec:
   ports:
   - port: 80
