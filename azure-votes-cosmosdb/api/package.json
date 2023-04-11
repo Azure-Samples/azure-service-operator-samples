@@ -7,8 +7,8 @@
   },
   "dependencies": {
     "@azure/cosmos": "^3.6.3",
-    "@azure/identity": "^1.0.3",
-    "@azure/keyvault-secrets": "^4.0.2",
+    "@azure/identity": "^1.5.2",
+    "@azure/keyvault-secrets": "^4.7.0",
     "ajv": "^6.12.3",
     "applicationinsights": "^1.7.5",
     "applicationinsights-native-metrics": "0.0.5",
