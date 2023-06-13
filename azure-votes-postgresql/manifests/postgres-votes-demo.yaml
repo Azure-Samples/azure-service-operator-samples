@@ -25,7 +25,9 @@ spec:
     name: Standard_D4s_v3
     tier: GeneralPurpose
   administratorLogin: ${USERNAME}
-  administratorLoginPassword: ${PASSWORD}
+  administratorLoginPassword:
+    name: postgres-secret
+    key: PASSWORD
   storage:
     storageSizeGB: 128
 ---
