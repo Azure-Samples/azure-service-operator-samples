@@ -3,7 +3,7 @@ kind: Namespace
 metadata:
   name: cosmos-todo
 ---
-apiVersion: resources.azure.com/v1alpha1api20200601
+apiVersion: resources.azure.com/v1api20200601
 kind: ResourceGroup
 metadata:
   name: aso-cosmos-demo
@@ -11,7 +11,7 @@ metadata:
 spec:
   location: westcentralus
 ---
-apiVersion: documentdb.azure.com/v1alpha1api20210515
+apiVersion: documentdb.azure.com/v1api20210515
 kind: DatabaseAccount
 metadata:
   name: cosmostodoacct
@@ -33,7 +33,7 @@ spec:
         name: cosmos-connection-settings
         key: documentEndpoint
 ---
-apiVersion: documentdb.azure.com/v1alpha1api20210515
+apiVersion: documentdb.azure.com/v1api20210515
 kind: SqlDatabase
 metadata:
   name: sample-sql-db
@@ -48,7 +48,7 @@ spec:
   resource:
     id: sample-sql-db
 ---
-apiVersion: documentdb.azure.com/v1alpha1api20210515
+apiVersion: documentdb.azure.com/v1api20210515
 kind: SqlDatabaseContainer
 metadata:
   name: sample-sql-container

@@ -1,9 +1,0 @@
-apiVersion: azure.microsoft.com/v1alpha1
-kind: AzureSqlDatabase
-metadata:
-  name:  sqldatabase-aso-demo
-spec:
-  location: westus
-  resourcegroup: aso-sql-rg
-  edition: 0
-  server:  sqlserver-aso-demo

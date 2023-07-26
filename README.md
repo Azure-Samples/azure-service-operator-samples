@@ -1,13 +1,8 @@
 # Azure Service Operator Samples
 
-This project contains example uses of the Azure Service Operator. These examples show how to deploy Azure services alongside your Kubernetes deployments.
+This project contains example uses of the Azure Service Operator. These examples show how to deploy Azure services alongside your Kubernetes deployments. For more information on ASO v2, refer to our [official documentation website](https://azure.github.io/azure-service-operator/).
 
 ## Examples
-
-The example deployments currently contained in this repository:
-
-* [azure-votes-sql](./azure-votes-sql) - example Go web app using Azure SQL Server
-* [wordpress-demo](./wordpress-demo) - example deploying Wordpress with Azure Databases for MySQL
 
 ### ASO v2
 Examples using the v2 operator with code-generated resources for full coverage.
@@ -33,7 +28,7 @@ Go to the directory containing the example you would like to try. Follow the rea
 
 ## Contributing
 
-The [contribution guide][contribution-guide] covers everything you need to know about how you can contribute to Azure Service Operators. The [developer guide][developer-guide] will help you onboard as a developer.
+The [contribution guide][contribution-guide] covers everything you need to know about how you can contribute to Azure Service Operator Samples.
 
 ## Support
 

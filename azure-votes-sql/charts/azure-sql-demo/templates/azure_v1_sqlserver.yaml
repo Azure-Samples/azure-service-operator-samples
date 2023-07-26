@@ -1,7 +1,0 @@
-apiVersion: azure.microsoft.com/v1alpha1
-kind: AzureSqlServer
-metadata:
-  name: {{ .Values.serverName }}
-spec:
-  location: {{ .Values.region }}
-  resourcegroup: {{ .Values.resourceGroupName }}
