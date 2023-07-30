@@ -6,7 +6,7 @@ metadata:
 apiVersion: resources.azure.com/v1api20200601
 kind: ResourceGroup
 metadata:
-  name: asodemo-rg
+  name: $APP_NAME-rg
   namespace: asodemo
 spec:
   location: westus2
@@ -14,12 +14,12 @@ spec:
 apiVersion: dbforpostgresql.azure.com/v1api20210601
 kind: FlexibleServer
 metadata:
-  name: ${SERVER}
+  name: $APP_NAME-server
   namespace: asodemo
 spec:
   location: westus2
   owner:
-    name: asodemo-rg
+    name: $APP_NAME-rg
   version: "13"
   sku:
     name: Standard_D4s_v3
@@ -34,21 +34,21 @@ spec:
 apiVersion: dbforpostgresql.azure.com/v1api20210601
 kind: FlexibleServersDatabase
 metadata:
-  name: votedb
+  name: $APP_NAME-server-db
   namespace: asodemo
 spec:
   owner:
-    name: ${SERVER}
+    name: $APP_NAME-server
   charset: utf8
 ---
 apiVersion: dbforpostgresql.azure.com/v1api20210601
 kind: FlexibleServersFirewallRule
 metadata:
-  name: asodemo-allow-all
+  name: $APP_NAME-allow-all
   namespace: asodemo
 spec:
   owner:
-    name: ${SERVER}
+    name: $APP_NAME-server
   # The following address range allows anybody to connect to this server.
   # This should only be used for demo purposes and not in production!
   # There are other ways to control server access which are not covered here, you can see more about it here:
@@ -64,6 +64,6 @@ metadata:
 stringData:
   USERNAME: "$USERNAME"
   PASSWORD: "$PASSWORD"
-  SERVER:   "$SERVER.postgres.database.azure.com"
-  DATABASE: "votedb"
+  SERVER:   "$APP_NAME-server.postgres.database.azure.com"
+  DATABASE: "$APP_NAME-server-db"
   PORT:     "5432"

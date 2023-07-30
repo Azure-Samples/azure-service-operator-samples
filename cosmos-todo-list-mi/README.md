@@ -62,6 +62,11 @@ Before running `kubectl apply` we must insert the OIDC URL retrieved above into 
 by manually by editing the `cosmos-sql-demo.yaml` file, or using `envsubst`. We show the `envsubst` method below. In production, we would recommend using a tool like Kubebuilder
 to inject these values.
 
+Create environment variables to hold app name
+```shell
+export APP_NAME=myapp
+```
+
 Create the resources by applying the file:
 ```sh
 envsubst <cosmos-sql-demo.yaml | kubectl apply -f -
@@ -83,7 +88,7 @@ The operator will keep creating them once the account is available and the error
 
 Now we can create the application deployment and service by running:
 ```sh
-kubectl apply -f cosmos-app.yaml
+envsubst <cosmos-app.yaml | kubectl apply -f -
 ```
 
 You can watch the state of the pod with:

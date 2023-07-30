@@ -42,9 +42,14 @@ The YAML documents in [cosmos-sql-demo.yaml](cosmos-sql-demo.yaml) create a numb
 * A SQL database and
 * A container (equivalent to a table in the [Cosmos DB resource model](https://docs.microsoft.com/en-us/azure/cosmos-db/account-databases-containers-items))
 
+Create environment variables to hold app name
+```shell
+export APP_NAME=myapp
+```
+
 Create them all by applying the file:
 ```sh
-kubectl apply -f cosmos-sql-demo.yaml
+envsubst <cosmos-sql-demo.yaml | kubectl apply -f -
 ```
 
 The operator will start creating the resource group and Cosmos DB items in Azure.
@@ -63,7 +68,7 @@ The operator will keep creating them once the account is available and the error
 
 Now we can create the application deployment and service by running:
 ```sh
-kubectl apply -f cosmos-app.yaml
+envsubst <cosmos-app.yaml | kubectl apply -f -
 ```
 
 You can watch the state of the pod with:

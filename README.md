@@ -1,6 +1,7 @@
 # Azure Service Operator Samples
 
-This project contains example uses of the Azure Service Operator. These examples show how to deploy Azure services alongside your Kubernetes deployments. For more information on ASO v2, refer to our [official documentation website](https://azure.github.io/azure-service-operator/).
+This project contains example uses of the Azure Service Operator. These examples show how to deploy Azure services alongside your Kubernetes deployments. 
+For more information on ASO, refer to our [official documentation website](https://azure.github.io/azure-service-operator/).
 
 ## Examples
 

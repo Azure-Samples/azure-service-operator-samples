@@ -21,7 +21,7 @@ application which records votes and stores them in the database.
 
 **Step 1: Create environment variables to hold a few key values**
 ```shell
-export SERVER=asodemo-postgres
+export APP_NAME=asodemo-postgres
 export USERNAME=asoadmin
 export PASSWORD=<yourpassword>
 ```

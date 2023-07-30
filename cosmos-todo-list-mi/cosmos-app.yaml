@@ -33,18 +33,18 @@ spec:
           - name: CosmosDB__Account
             valueFrom:
               secretKeyRef:
-                name: cosmos-connection-settings  # This is the secret created by ASO associated with the CosmosDB Account. See the DatabaseAccount resource for more details.
+                name: $APP_NAME-sqldb-connection-settings  # This is the secret created by ASO associated with the CosmosDB Account. See the DatabaseAccount resource for more details.
                 key: documentEndpoint
                 optional: false
           - name: CosmosDB__DatabaseName
-            value: "sample-sql-db"
+            value: "$APP_NAME-sql-db"
           - name: CosmosDB__ContainerName
-            value: "sample-sql-container"
+            value: "$APP_NAME-sql-container"
           - name: AZURE_CLIENT_ID
             valueFrom:
               configMapKeyRef:
                 key: clientId
-                name: cosmos-todo-identity-settings # This is the configmap created by ASO associated with the Managed Identity. See the UserAssignedIdentity resource for more details.
+                name: $APP_NAME-identity-settings # This is the configmap created by ASO associated with the Managed Identity. See the UserAssignedIdentity resource for more details.
                 optional: false
         ports:
         - containerPort: 80

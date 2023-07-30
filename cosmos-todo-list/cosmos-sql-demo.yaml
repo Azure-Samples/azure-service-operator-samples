@@ -6,7 +6,7 @@ metadata:
 apiVersion: resources.azure.com/v1api20200601
 kind: ResourceGroup
 metadata:
-  name: aso-cosmos-demo
+  name: ${APP_NAME}-rg
   namespace: cosmos-todo
 spec:
   location: westcentralus
@@ -14,12 +14,12 @@ spec:
 apiVersion: documentdb.azure.com/v1api20210515
 kind: DatabaseAccount
 metadata:
-  name: cosmostodoacct
+  name: $APP_NAME-sqldb
   namespace: cosmos-todo
 spec:
   location: westcentralus
   owner:
-    name: aso-cosmos-demo
+    name: ${APP_NAME}-rg
   kind: GlobalDocumentDB
   databaseAccountOfferType: Standard
   locations:
@@ -27,38 +27,38 @@ spec:
   operatorSpec:
     secrets:
       primaryMasterKey:
-        name: cosmos-connection-settings
+        name: $APP_NAME-sqldb-connection-settings
         key: key
       documentEndpoint:
-        name: cosmos-connection-settings
+        name: $APP_NAME-sqldb-connection-settings
         key: documentEndpoint
 ---
 apiVersion: documentdb.azure.com/v1api20210515
 kind: SqlDatabase
 metadata:
-  name: sample-sql-db
+  name: ${APP_NAME}-sql-db
   namespace: cosmos-todo
 spec:
   location: westcentralus
   owner:
-    name: cosmostodoacct
+    name: $APP_NAME-sqldb
   options:
     autoscaleSettings:
       maxThroughput: 4000
   resource:
-    id: sample-sql-db
+    id: ${APP_NAME}-sql-db
 ---
 apiVersion: documentdb.azure.com/v1api20210515
 kind: SqlDatabaseContainer
 metadata:
-  name: sample-sql-container
+  name: ${APP_NAME}-sql-container
   namespace: cosmos-todo
 spec:
   location: westcentralus
   owner:
-    name: sample-sql-db
+    name: ${APP_NAME}-sql-db
   resource:
-    id: sample-sql-container
+    id: ${APP_NAME}-sql-container
     partitionKey:
       kind: Hash
       paths: ["/id"]
