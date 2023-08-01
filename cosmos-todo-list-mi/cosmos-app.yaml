@@ -33,7 +33,9 @@ spec:
           - name: CosmosDB__Account
             valueFrom:
               secretKeyRef:
-                name: $APP_NAME-sqldb-connection-settings  # This is the secret created by ASO associated with the CosmosDB Account. See the DatabaseAccount resource for more details.
+                # This is the secret created by ASO associated with the CosmosDB Account.
+                name: $APP_NAME-sqldb-connection-settings
+                # See https://azure.github.io/azure-service-operator/reference/documentdb/v1api20210515/#documentdb.azure.com/v1api20210515.DatabaseAccount for more details
                 key: documentEndpoint
                 optional: false
           - name: CosmosDB__DatabaseName

@@ -63,7 +63,7 @@ by manually by editing the `cosmos-sql-demo.yaml` file, or using `envsubst`. We 
 to inject these values.
 
 Create environment variables to hold app name
-```shell
+```sh
 export APP_NAME=myapp
 ```
 
