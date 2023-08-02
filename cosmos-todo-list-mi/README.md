@@ -62,10 +62,12 @@ Before running `kubectl apply` we must insert the OIDC URL retrieved above into 
 by manually by editing the `cosmos-sql-demo.yaml` file, or using `envsubst`. We show the `envsubst` method below. In production, we would recommend using a tool like Kubebuilder
 to inject these values.
 
-Create environment variables to hold app name
+Create environment variables to hold app name. This APP_NAME below is used to generate the names of some resources in Azure below.
 ```sh
-export APP_NAME=myapp
+export APP_NAME=cosmos-todo-app
 ```
+**Warning:**: Some of these names must be unique, so we recommend you edit APP_NAME above to be something unique to yourself to avoid conflicts. For example: APP_NAME=marys-cosmos-todo
+
 
 Create the resources by applying the file:
 ```sh

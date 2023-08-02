@@ -34,7 +34,7 @@ spec:
             valueFrom:
               secretKeyRef:
                 # This is the secret created by ASO associated with the CosmosDB Account.
-                name: $APP_NAME-sqldb-connection-settings
+                name: ${APP_NAME}-sqldb-connection-settings
                 # See https://azure.github.io/azure-service-operator/reference/documentdb/v1api20210515/#documentdb.azure.com/v1api20210515.DatabaseAccount for more details
                 key: documentEndpoint
                 optional: false
@@ -46,7 +46,7 @@ spec:
             valueFrom:
               configMapKeyRef:
                 key: clientId
-                name: $APP_NAME-identity-settings # This is the configmap created by ASO associated with the Managed Identity. See the UserAssignedIdentity resource for more details.
+                name: ${APP_NAME}-identity-settings # This is the configmap created by ASO associated with the Managed Identity. See the UserAssignedIdentity resource for more details.
                 optional: false
         ports:
         - containerPort: 80

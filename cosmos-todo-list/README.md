@@ -8,12 +8,10 @@ by creating resources in a Kubernetes cluster.
 
 To deploy this demo application you'll need the following:
 
-1. A Kubernetes cluster (at least version 1.21) [created and
-   running](https://kubernetes.io/docs/tutorials/kubernetes-basics/create-cluster/),
+1. A Kubernetes cluster (at least version 1.21) [created and running](https://kubernetes.io/docs/tutorials/kubernetes-basics/create-cluster/),
    and [`kubectl`](https://kubernetes.io/docs/tasks/tools/#kubectl) configured to talk to it. (You can check your cluster
    version with `kubectl version`.) This could be a local [Kind cluster](https://kind.sigs.k8s.io/docs/user/quick-start/)
-   or an [Azure Kubernetes Service
-   cluster](https://docs.microsoft.com/en-us/azure/aks/tutorial-kubernetes-deploy-cluster)
+   or an [Azure Kubernetes Service cluster](https://docs.microsoft.com/en-us/azure/aks/tutorial-kubernetes-deploy-cluster)
    running in your subscription.
 
 2. An Azure subscription to create Azure resources under.
@@ -42,10 +40,11 @@ The YAML documents in [cosmos-sql-demo.yaml](cosmos-sql-demo.yaml) create a numb
 * A SQL database and
 * A container (equivalent to a table in the [Cosmos DB resource model](https://docs.microsoft.com/en-us/azure/cosmos-db/account-databases-containers-items))
 
-Create environment variables to hold app name
-```shell
-export APP_NAME=myapp
+Create environment variables to hold app name. This APP_NAME below is used to generate the names of some resources in Azure below.
+```sh
+export APP_NAME=cosmos-todo
 ```
+**Warning:**: Some of these names must be unique, so we recommend you edit APP_NAME above to be something unique to yourself to avoid conflicts. For example: APP_NAME=foo-cosmos-todo
 
 Create them all by applying the file:
 ```sh

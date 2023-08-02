@@ -27,10 +27,10 @@ spec:
   operatorSpec:
     secrets:
       primaryMasterKey:
-        name: $APP_NAME-sqldb-connection-settings
+        name: ${APP_NAME}-sqldb-connection-settings
         key: key
       documentEndpoint:
-        name: $APP_NAME-sqldb-connection-settings
+        name: ${APP_NAME}-sqldb-connection-settings
         key: documentEndpoint
 ---
 apiVersion: documentdb.azure.com/v1api20210515
@@ -41,7 +41,7 @@ metadata:
 spec:
   location: westcentralus
   owner:
-    name: $APP_NAME-sqldb
+    name: ${APP_NAME}-sqldb
   options:
     autoscaleSettings:
       maxThroughput: 4000
