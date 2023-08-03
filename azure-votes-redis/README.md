@@ -20,7 +20,7 @@ To deploy this demo application you'll need the following:
 ## Set up Azure Service Operator
 
 ASO lets you manage Azure resources using Kubernetes tools.
-The operator is installed in your cluster and propagates changes to resources there to the Azure Resource Manager.
+The operator is installed in your cluster, and propagates changes from cluster resources to Azure, using the Azure Resource Manager.
 [Read more about how ASO works](https://github.com/azure/azure-service-operator#what-is-it)
 
 Follow [these
@@ -29,17 +29,22 @@ Part of this installs
 the [custom resource definitions](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) for some of the Azure Resources.
 
 ### Note: 
-Only a few Custom Resource Definitions will be installed in your cluster when you follow the Azure Service Operator set up instructions. The CRDs required specifically to run this sample will be installed along with the sample.
+As you follow the installation instructions for Azure Service Operator, add `cache.azure.com/*` to the configuration of CRD Patterns. (ASO doesn't automatically install all available Custom Resource Definitions, as most users only want a small subset.)
 
 
 ## Deploy the application and Azure resources
 
-The YAML documents in [azure-vote-managed-redis.yaml](azure-vote-managed-redis.yaml) create a number of things:
+The YAML documents in [azure-vote-managed-redis.yaml](azure-vote-managed-redis.yaml) create:
 
 * A Kubernetes namespace named `azure-vote`,
 * An Azure resource group named `aso-redis-demo`,
-* An Azure Cache for Redis instance. Note that the container spec for redis.cache.azure.com instance is configured to retrieve two secrets that are produced by the Azure Cache for Redis instance - hostname and primaryKey. As described [here](https://azure.github.io/azure-service-operator/guide/secrets/#how-to-retrieve-secrets-created-by-azure), these secrets need to be mapped to our sample application and the container for our sample application will be blocked until these two secrets are created.
-* A deployment and service for the popular [AKS voting sample app](https://github.com/Azure-Samples/azure-voting-app-redis). We have updated the original container spec to introduce environment variables for the managed Redis hostname and access key. 
+* An Azure Cache for Redis instance. 
+* A deployment and service for the popular [AKS voting sample app](https://github.com/Azure-Samples/azure-voting-app-redis). 
+
+The redis.cache.azure.com instance is configured to retrieve two secrets that are produced by the Azure Cache for Redis instance - hostname and primaryKey. As described [here](https://azure.github.io/azure-service-operator/guide/secrets/#how-to-retrieve-secrets-created-by-azure), these secrets need to be mapped to our sample application and the container for our sample application will be blocked until these two secrets are created.
+
+The Voting Sample is configured with environment variables that read the secretes for the managed Redis hostname and access key, allowing the sample to use the cache.
+
 
 Create them all by applying the file:
 ```sh
@@ -54,9 +59,9 @@ watch kubectl get -n azure-vote resourcegroup,redis
 You can also find the resource group in the [Azure portal](https://portal.azure.com) and watch the Azure Cache for Redis instance being created there.
 
 ### Note
-It could take a few minutes for the Azure Cache for Redis to be provisioned. In that time you might see some `ResourceNotFound` errors, or messages indicating that the secret, Azure Cache for Redis or the application deployment are not ready.
+It may take a few minutes for the Azure Cache for Redis to be provisioned. In that time, you may see some `ResourceNotFound` messages in the logsindicating that the secret, the Azure Cache for Redis or the application deployment are not ready.
 *This is OK!*
-Once the Redis instance is created, secrets will be created and will unblock the sample application container creation. All errors should eventually resolve once the Redis instance is provisioned.
+Once the Redis instance is created, secrets will be created and will unblock the sample application container creation. All errors will eventually resolve once the Redis instance is provisioned. These errors are ASO monitoring the creation of each resource, allowing it to take the next step as soon as the resource is available.
 
 ## Test the application
 When the application runs, a Kubernetes service exposes the application front end to the internet. This process can take a few minutes to complete.
