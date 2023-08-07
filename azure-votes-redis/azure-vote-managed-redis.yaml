@@ -6,7 +6,7 @@ metadata:
 apiVersion: resources.azure.com/v1api20200601
 kind: ResourceGroup
 metadata:
-  name: aso-redis-demo
+  name: ${APP_NAME}
   namespace: azure-vote
 spec:
   location: westcentralus
@@ -14,12 +14,12 @@ spec:
 apiVersion: cache.azure.com/v1api20201201
 kind: Redis
 metadata:
-  name: azure-vote-redis
+  name: ${APP_NAME}-redis
   namespace: azure-vote
 spec:
   location: westcentralus
   owner:
-    name: aso-redis-demo
+    name: ${APP_NAME}
   sku:
     family: C
     name: Basic

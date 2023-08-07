@@ -43,12 +43,19 @@ The YAML documents in [azure-vote-managed-redis.yaml](azure-vote-managed-redis.y
 
 The redis.cache.azure.com instance is configured to retrieve two secrets that are produced by the Azure Cache for Redis instance - hostname and primaryKey. As described [here](https://azure.github.io/azure-service-operator/guide/secrets/#how-to-retrieve-secrets-created-by-azure), these secrets need to be mapped to our sample application and the container for our sample application will be blocked until these two secrets are created.
 
-The Voting Sample is configured with environment variables that read the secretes for the managed Redis hostname and access key, allowing the sample to use the cache.
+The Voting Sample is configured with environment variables that read the secrets for the managed Redis hostname and access key, allowing the sample to use the managed cache.
+
+### Steps to install
+1. Create environment variables to hold app name. This APP_NAME below is used to generate the names of some resources in Azure below.
+```sh
+export APP_NAME=my-azure-vote
+```
+**Warning:**: Some of these names must be unique, so we recommend you edit APP_NAME above to be something unique to yourself to avoid conflicts. For example: APP_NAME=annas-voting-app
 
 
 Create them all by applying the file:
 ```sh
-kubectl apply -f azure-vote-managed-redis.yaml
+envsubst < azure-vote-managed-redis.yaml | kubectl apply -f -
 ```
 
 The operator will start creating the resource group and Azure Cache for Redis instance in Azure.
@@ -76,10 +83,9 @@ If you're interested in code for the application, it is available [here](https:/
 
 ## Clean up
 
-When you're finished with the sample application you can clean all of the Kubernetes and Azure resources up by deleting the `cosmos-todo` namespace in your cluster.
+When you're finished with the sample application you can clean all of the Kubernetes and Azure resources up by deleting the `azure-vote` namespace in your cluster.
 ```sh
-kubectl delete namespace cosmos-todo
+kubectl delete namespace azure-vote
 ```
 
-Kubernetes will delete the web application pod and the operator will delete the Azure resource group and all the Cosmos DB resources.
-(Deleting a Cosmos DB account can take several minutes.)
+Kubernetes will delete the web application pod and the operator will delete the Azure resource group and resources.
