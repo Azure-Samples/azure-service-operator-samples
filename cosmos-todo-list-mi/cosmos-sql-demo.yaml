@@ -3,40 +3,40 @@ kind: Namespace
 metadata:
   name: cosmos-todo
 ---
-apiVersion: resources.azure.com/v1alpha1api20200601
+apiVersion: resources.azure.com/v1api20200601
 kind: ResourceGroup
 metadata:
-  name: aso-cosmos-demo
+  name: ${APP_NAME}-rg
   namespace: cosmos-todo
 spec:
   location: westcentralus
 ---
-apiVersion: managedidentity.azure.com/v1beta20181130
+apiVersion: managedidentity.azure.com/v1api20181130
 kind: UserAssignedIdentity
 metadata:
-  name: cosmos-todo-identity
+  name: ${APP_NAME}-identity
   namespace: cosmos-todo
 spec:
   location: westcentralus
   owner:
-    name: aso-cosmos-demo
+    name: ${APP_NAME}-rg
   operatorSpec:
     configMaps:
       principalId:
-        name: cosmos-todo-identity-settings
+        name: ${APP_NAME}-identity-settings
         key: principalId
       clientId:
-        name: cosmos-todo-identity-settings
+        name: ${APP_NAME}-identity-settings
         key: clientId
 ---
-apiVersion: managedidentity.azure.com/v1beta20220131preview
+apiVersion: managedidentity.azure.com/v1api20220131preview
 kind: FederatedIdentityCredential
 metadata:
-  name: cosmos-todo-fic
+  name: ${APP_NAME}-fic
   namespace: cosmos-todo
 spec:
   owner:
-    name: cosmos-todo-identity
+    name: ${APP_NAME}-identity
   audiences:
     # For Workload Identity, Audiences should always be "api://AzureADTokenExchange"
     - api://AzureADTokenExchange
@@ -46,15 +46,15 @@ spec:
   # For Workload Identity, Subject should always be system:serviceaccount:<namespace>:<serviceaccount>
   subject: system:serviceaccount:cosmos-todo:cosmos-service-account
 ---
-apiVersion: documentdb.azure.com/v1alpha1api20210515
+apiVersion: documentdb.azure.com/v1api20210515
 kind: DatabaseAccount
 metadata:
-  name: cosmostodoacct
+  name: $APP_NAME-sqldb
   namespace: cosmos-todo
 spec:
   location: westcentralus
   owner:
-    name: aso-cosmos-demo
+    name: ${APP_NAME}-rg
   kind: GlobalDocumentDB
   databaseAccountOfferType: Standard
   locations:
@@ -62,51 +62,51 @@ spec:
   operatorSpec:
     secrets:
       documentEndpoint:
-        name: cosmos-connection-settings
+        name: $APP_NAME-sqldb-connection-settings
         key: documentEndpoint
 ---
-apiVersion: documentdb.azure.com/v1alpha1api20210515
+apiVersion: documentdb.azure.com/v1api20210515
 kind: SqlDatabase
 metadata:
-  name: sample-sql-db
+  name: ${APP_NAME}-sql-db
   namespace: cosmos-todo
 spec:
   location: westcentralus
   owner:
-    name: cosmostodoacct
+    name: $APP_NAME-sqldb
   options:
     autoscaleSettings:
       maxThroughput: 4000
   resource:
-    id: sample-sql-db
+    id: ${APP_NAME}-sql-db
 ---
-apiVersion: documentdb.azure.com/v1alpha1api20210515
+apiVersion: documentdb.azure.com/v1api20210515
 kind: SqlDatabaseContainer
 metadata:
-  name: sample-sql-container
+  name: ${APP_NAME}-sql-container
   namespace: cosmos-todo
 spec:
   location: westcentralus
   owner:
-    name: sample-sql-db
+    name: ${APP_NAME}-sql-db
   resource:
-    id: sample-sql-container
+    id: ${APP_NAME}-sql-container
     partitionKey:
       kind: Hash
       paths: ["/id"]
 ---
-apiVersion: documentdb.azure.com/v1beta20210515
+apiVersion: documentdb.azure.com/v1api20210515
 kind: SqlRoleAssignment
 metadata:
-  name: cosmos-role-assignment
+  name: ${APP_NAME}-role-assignment
   namespace: cosmos-todo
 spec:
   owner:
-    name: cosmostodoacct
+    name: ${APP_NAME}-sqldb
   azureName: 31edb778-9702-4f43-a47a-5817594044af # This can be any UUID
   principalIdFromConfig:
-    name: cosmos-todo-identity-settings
+    name: ${APP_NAME}-identity-settings
     key: principalId
   # This RoleDefinition corresponds to "Cosmos DB Built-in Data Contributor". See https://docs.microsoft.com/en-us/azure/cosmos-db/how-to-setup-rbac#built-in-role-definitions for more.
-  roleDefinitionId: /subscriptions/${AZURE_SUBSCRIPTION_ID}/resourceGroups/cosmos-todo-rg/providers/Microsoft.DocumentDB/databaseAccounts/cosmostodoacct/sqlRoleDefinitions/00000000-0000-0000-0000-000000000002
-  scope: /subscriptions/${AZURE_SUBSCRIPTION_ID}/resourceGroups/cosmos-todo-rg/providers/Microsoft.DocumentDB/databaseAccounts/cosmostodoacct
+  roleDefinitionId: /subscriptions/${AZURE_SUBSCRIPTION_ID}/resourceGroups/${APP_NAME}-rg/providers/Microsoft.DocumentDB/databaseAccounts/${APP_NAME}-sqldb/sqlRoleDefinitions/00000000-0000-0000-0000-000000000002
+  scope: /subscriptions/${AZURE_SUBSCRIPTION_ID}/resourceGroups/${APP_NAME}-rg/providers/Microsoft.DocumentDB/databaseAccounts/${APP_NAME}-sqldb

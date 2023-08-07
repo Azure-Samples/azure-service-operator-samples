@@ -1,9 +1,0 @@
-apiVersion: azure.microsoft.com/v1alpha1
-kind: MySQLFirewallRule
-metadata:
-  name: aso-wpdemo-mysqlfirewallrule
-spec:
-  resourceGroup: aso-wpdemo-rg
-  server: aso-wpdemo-mysqlserver
-  startIpAddress: 0.0.0.0
-  endIpAddress: 255.255.255.255

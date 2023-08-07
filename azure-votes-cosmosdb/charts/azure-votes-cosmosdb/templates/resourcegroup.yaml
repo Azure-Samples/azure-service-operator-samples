@@ -1,8 +1,0 @@
-apiVersion: azure.microsoft.com/v1alpha1
-kind: ResourceGroup
-metadata:
-  name: "rg-{{ .Values.app.name }}"
-  labels:
-    application: {{ .Values.app.name | quote }}
-spec:
-  location: {{ (index .Values.locations 0).name | quote }}

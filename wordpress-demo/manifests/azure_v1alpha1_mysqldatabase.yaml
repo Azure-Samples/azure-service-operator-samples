@@ -1,7 +1,0 @@
-apiVersion: azure.microsoft.com/v1alpha1
-kind: MySQLDatabase
-metadata:
-  name: aso-wpdemo-mysqldatabase
-spec:
-  resourceGroup: aso-wpdemo-rg
-  server: aso-wpdemo-mysqlserver
