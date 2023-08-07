@@ -79,6 +79,12 @@ kubectl get service azure-vote-front
 
 Copy the EXTERNAL-IP address from the output. To see the application in action, open a web browser to the external IP address of your service.
 
+Alternatively, for kind clusters, you can also use the following command
+
+```sh
+kubectl port-forward -n azure-vote service/azure-vote-front 8080:80
+```
+
 If you're interested in code for the application, it is available [here](https://github.com/Azure-Samples/azure-voting-app-redis).
 
 ## Clean up
