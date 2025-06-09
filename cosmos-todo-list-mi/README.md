@@ -1,13 +1,13 @@
 # Azure Service Operator Cosmos DB with Managed Identity demo
 
 This sample is a demonstration of how to use the Azure Service Operator (ASO) to provision a Cosmos DB backed
-application using Azure Managed Identities. This solution applies the principle of least priviledge to create
+application using Azure Managed Identities. This solution applies the principle of least privilege to create
 an identity dedicated to the To-Do list application with the minimum set of permissions needed to run the application.
 
 This involves provisioning the following resources through Kubernetes:
 - A User Managed Identity and associted Federated Identity Credential (for use with Azure Workload Identity).
 - A Cosmos DB SQL database and container.
-- A web application (Service, Deployment, Pods) which uses the Comsos DB container to store its data.
+- A web application (Service, Deployment, Pods) which uses the Cosmos DB container to store its data.
 
 ## Prerequisites
 
@@ -19,7 +19,7 @@ To deploy this demo application you'll need the following:
    deployed in your subscription, with [`kubectl`](https://kubernetes.io/docs/tasks/tools/#kubectl) configured to talk to it.
    The AKS cluster must have [OIDC issuer](https://learn.microsoft.com/azure/aks/cluster-configuration#oidc-issuer) enabled.
 
-3. The OIDC issuer of the cluster retrieved and stored in an enviornment variable along with the Azure Subscription ID.
+3. The OIDC issuer of the cluster retrieved and stored in an environment variable along with the Azure Subscription ID.
    This can be done with the az cli via:
 
    ```
