@@ -46,6 +46,11 @@ Part of this installs
 the [custom resource definitions](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) for the Azure and Cosmos DB resources
 we're going to create next: ResourceGroup, DatabaseAccount, SqlDatabase, SqlDatabaseContainer, UserAssignedIdentity, and FederatedIdentityCredential
 
+> [!NOTE]
+> When specifying the `crdPattern` configuration option to select which custom resources (CRs) are installed, make sure
+> you include `resources.azure.com/*` (for the ResourceGroup CR),
+> `documentdb.azure.com/*` (for the DatabaseAccount, SqlDatabase, & SqlDatabaseContainer CRs),
+> and `managedidentity.azure.com/*` (for the UserAssignedIdentity & FederatedIdentityCredential CRs).
 
 ## Create the Cosmos DB resources
 
