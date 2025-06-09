@@ -106,7 +106,7 @@ envsubst <cosmos-app.yaml | kubectl apply -f -
 You can watch the state of the pod with:
 
 ```sh
-watch kubectl get -n cosmos-todo pods
+watch kubectl get --namespace cosmos-todo pods
 ```
 
 Once the pod's running, we need to expose the service outside the cluster so we can make requests to the todo app.
