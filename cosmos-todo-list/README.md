@@ -24,11 +24,10 @@ The operator is installed in your cluster and propagates changes to resources th
 
 Follow [these
 instructions](https://github.com/Azure/azure-service-operator/tree/master/v2#installation) to install the ASO v2 operator in your cluster.
-Part of this installs
-the [custom resource definitions](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) for the Azure and Cosmos DB resources
-we're going to create next: ResourceGroup, DatabaseAccount,
-SqlDatabase, and SqlDatabaseContainer.
 
+* When specifying the `crdPattern` configuration option to select which custom resources (CRs) are installed, make sure
+  you include both `resources.azure.com/*` (for the ResourceGroup CR) and `documentdb.azure.com/*` (for the DatabaseAccount,
+  SqlDatabase, and SqlDatabaseContainer CRs). )
 
 ## Create the Cosmos DB resources
 
@@ -41,36 +40,45 @@ The YAML documents in [cosmos-sql-demo.yaml](cosmos-sql-demo.yaml) create a numb
 * A container (equivalent to a table in the [Cosmos DB resource model](https://docs.microsoft.com/en-us/azure/cosmos-db/account-databases-containers-items))
 
 Create environment variables to hold app name. This APP_NAME below is used to generate the names of some resources in Azure below.
+
 ```sh
 export APP_NAME=cosmos-todo
 ```
+
 **Warning:**: Some of these names must be unique, so we recommend you edit APP_NAME above to be something unique to yourself to avoid conflicts. For example: APP_NAME=foo-cosmos-todo
 
 Create them all by applying the file:
+
 ```sh
 envsubst <cosmos-sql-demo.yaml | kubectl apply -f -
 ```
 
 The operator will start creating the resource group and Cosmos DB items in Azure.
 You can monitor their progress with:
+
 ```sh
 watch kubectl get -n cosmos-todo resourcegroup,databaseaccount,sqldatabase,sqldatabasecontainer
 ```
+
 You can also find the resource group in the [Azure portal](https://portal.azure.com) and watch the Cosmos DB resources being created there.
 
 It could take a few minutes for the Cosmos DB resources to be provisioned.
 In that time you might see some `ResourceNotFound` errors, or messages indicating that the database account isn't ready, on the SQL database or container.
+
 This is OK!
+
 The operator will keep creating them once the account is available and the errors should eventually resolve themselves.
 
 ## Deploy the web application
 
 Now we can create the application deployment and service by running:
+
 ```sh
 envsubst <cosmos-app.yaml | kubectl apply -f -
 ```
 
 You can watch the state of the pod with:
+
 ```sh
 watch kubectl get -n cosmos-todo pods
 ```
@@ -78,6 +86,7 @@ watch kubectl get -n cosmos-todo pods
 Once the pod's running, we need to expose the service outside the cluster so we can make requests to the todo app.
 There are a [number of ways](https://kubernetes.io/docs/tutorials/kubernetes-basics/expose/expose-intro/) to do this in Kubernetes, but a simple option for this demonstration is using port-forwarding.
 Run this command to set it up:
+
 ```sh
 kubectl port-forward -n cosmos-todo service/cosmos-todo-service 8080:80
 ```
@@ -92,6 +101,7 @@ If you're interested in how the todo application uses the Cosmos DB API, the cod
 ## Clean up
 
 When you're finished with the sample application you can clean all of the Kubernetes and Azure resources up by deleting the `cosmos-todo` namespace in your cluster.
+
 ```sh
 kubectl delete namespace cosmos-todo
 ```
