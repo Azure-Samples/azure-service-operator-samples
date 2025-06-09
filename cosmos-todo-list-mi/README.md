@@ -134,3 +134,11 @@ kubectl delete namespace cosmos-todo
 
 Kubernetes will delete the web application pod and the operator will delete the Azure resource group and all the Cosmos DB resources.
 (Deleting a Cosmos DB account can take several minutes.)
+
+> [!WARNING]
+> This assumes you used the standard Helm chart installation of the Azure Service Operator. That installation stores the Azure credentials used by ASO in a Kubernetes secret named in the namespace where ASO is installed.
+> If you instead used a [namespace scoped](https://azure.github.io/azure-service-operator/guide/authentication/credential-scope/#namespace-scope) secret for the Azure credentials, deleting the entire namespace will run into problems when the secret is deleted before all the Azure deletions are complete. Instead, you will need to delete the Azure Resource Group prior to deleting the cluster namespace with the command:
+
+```bash
+kubectl delete --namespace cosmos-todo ${APP_NAME}-rg
+```
