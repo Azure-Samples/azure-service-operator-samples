@@ -122,7 +122,7 @@ You can create todo items and mark them as complete!
 
 Use the Cosmos DB account Data Explorer on the portal to expand the database and container, and you can see the todo-list items stored by the web app.
 
-If you're interested in how the todo application uses the Cosmos DB API, the code is available [here](https://github.com/Azure-Samples/cosmos-dotnet-core-todo-app/tree/main/src).
+If you're interested in how the todo application uses the Cosmos DB API, [the code is available](https://github.com/Azure-Samples/cosmos-dotnet-core-todo-app/tree/main/src).
 
 ## Clean up
 
