@@ -5,7 +5,8 @@ application using Azure Managed Identities. This solution applies the principle 
 an identity dedicated to the To-Do list application with the minimum set of permissions needed to run the application.
 
 This involves provisioning the following resources through Kubernetes:
-- A User Managed Identity and associted Federated Identity Credential (for use with Azure Workload Identity).
+
+- A User Managed Identity and associated Federated Identity Credential (for use with Azure Workload Identity).
 - A Cosmos DB SQL database and container.
 - A web application (Service, Deployment, Pods) which uses the Cosmos DB container to store its data.
 
@@ -22,63 +23,66 @@ To deploy this demo application you'll need the following:
 3. The OIDC issuer of the cluster retrieved and stored in an environment variable along with the Azure Subscription ID.
    This can be done with the az cli via:
 
-   ```
+   ``` bash
    export AKS_OIDC_ISSUER=$(az aks show -n myAKScluster -g myResourceGroup --query "oidcIssuerProfile.issuerUrl" -otsv)
    export AZURE_SUBSCRIPTION_ID=<azure subscription id>
    ```
 
 ## Set up Azure Workload Identity
 
-Install Azure Workload Identity. You should already have your clusters OIDC issuer saved in a variable `AKS_OIDC_ISSUER` 
-from above so you can just 
-install the [Azure Workload Identity webhook](https://azure.github.io/azure-workload-identity/docs/installation/mutating-admission-webhook.html).
+Install Azure Workload Identity. You should already have your clusters OIDC issuer saved in a variable `AKS_OIDC_ISSUER`
+from above so you can just install the
+[Azure Workload Identity webhook](https://azure.github.io/azure-workload-identity/docs/installation/mutating-admission-webhook.html).
 
 ## Set up Azure Service Operator
 
 ASO lets you manage Azure resources using Kubernetes tools.
 The operator is installed in your cluster and propagates changes to resources there to the Azure Resource Manager.
-[Read more about how ASO works](https://github.com/azure/azure-service-operator#what-is-it)
+[Read more about how ASO works](https://github.com/azure/azure-service-operator#what-is-it).
 
-Follow [these instructions](https://azure.github.io/azure-service-operator/#installation) to install the ASO v2 
+Follow [these instructions](https://azure.github.io/azure-service-operator/#installation) to install the ASO v2
 operator in your cluster.
 Part of this installs
 the [custom resource definitions](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) for the Azure and Cosmos DB resources
-we're going to create next: ResourceGroup, DatabaseAccount,
-SqlDatabase, SqlDatabaseContainer, UserAssignedIdentity, and FederatedIdentityCredential
+we're going to create next: ResourceGroup, DatabaseAccount, SqlDatabase, SqlDatabaseContainer, UserAssignedIdentity, and FederatedIdentityCredential
 
 
 ## Create the Cosmos DB resources
 
 The YAML documents in [cosmos-sql-demo.yaml](cosmos-sql-demo.yaml) create a number of things:
 
-* A Kubernetes namespace named `cosmos-todo`,
-* An Azure resource group named `aso-cosmos-demo`,
-* A User Assigned Identity named `cosmos-todo-identity` and associated Federated Identity Credential,
-* A Cosmos DB database account,
-* A SQL database and
-* A container (equivalent to a table in the [Cosmos DB resource model](https://docs.microsoft.com/en-us/azure/cosmos-db/account-databases-containers-items))
+- A Kubernetes namespace named `cosmos-todo`,
+- An Azure resource group named `aso-cosmos-demo`,
+- A User Assigned Identity named `cosmos-todo-identity` and associated Federated Identity Credential,
+- A Cosmos DB database account,
+- A SQL database and
+- A container (equivalent to a table in the [Cosmos DB resource model](https://docs.microsoft.com/en-us/azure/cosmos-db/account-databases-containers-items))
 
 Before running `kubectl apply` we must insert the OIDC URL retrieved above into the `FederatedIdentityCredential` resource. For example purposes this is most easily done
 by manually by editing the `cosmos-sql-demo.yaml` file, or using `envsubst`. We show the `envsubst` method below. In production, we would recommend using a tool like Kubebuilder
 to inject these values.
 
 Create environment variables to hold app name. This APP_NAME below is used to generate the names of some resources in Azure below.
+
 ```sh
 export APP_NAME=cosmos-todo-app
 ```
+
 **Warning:**: Some of these names must be unique, so we recommend you edit APP_NAME above to be something unique to yourself to avoid conflicts. For example: APP_NAME=marys-cosmos-todo
 
-
 Create the resources by applying the file:
+
 ```sh
 envsubst <cosmos-sql-demo.yaml | kubectl apply -f -
 ```
 
 The operator will start creating the resource group and Cosmos DB items in Azure.
 You can monitor their progress with:
+
 ```sh
 watch kubectl get -n cosmos-todo resourcegroup,databaseaccount,sqldatabase,sqldatabasecontainer,userassignedidentity,federatedidentitycredential
 ```
+
 You can also find the resource group in the [Azure portal](https://portal.azure.com) and watch the Cosmos DB resources being created there.
 
 It could take a few minutes for the Cosmos DB resources to be provisioned.
@@ -89,11 +93,13 @@ The operator will keep creating them once the account is available and the error
 ## Deploy the web application
 
 Now we can create the application deployment and service by running:
+
 ```sh
 envsubst <cosmos-app.yaml | kubectl apply -f -
 ```
 
 You can watch the state of the pod with:
+
 ```sh
 watch kubectl get -n cosmos-todo pods
 ```
@@ -101,6 +107,7 @@ watch kubectl get -n cosmos-todo pods
 Once the pod's running, we need to expose the service outside the cluster so we can make requests to the todo app.
 There are a [number of ways](https://kubernetes.io/docs/tutorials/kubernetes-basics/expose/expose-intro/) to do this in Kubernetes, but a simple option for this demonstration is using port-forwarding.
 Run this command to set it up:
+
 ```sh
 kubectl port-forward -n cosmos-todo service/cosmos-todo-service 8080:80
 ```
@@ -115,6 +122,7 @@ If you're interested in how the todo application uses the Cosmos DB API, the cod
 ## Clean up
 
 When you're finished with the sample application you can clean all of the Kubernetes and Azure resources up by deleting the `cosmos-todo` namespace in your cluster.
+
 ```sh
 kubectl delete namespace cosmos-todo
 ```
